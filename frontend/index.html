@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GREEN MAX - Advanced Investment Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <i class="fas fa-leaf"></i>
+                    <span>GREEN MAX</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#plans">Plans</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+                <div class="nav-buttons">
+                    <a href="pages/login.html" class="btn btn-outline">Login</a>
+                    <a href="pages/register.html" class="btn btn-primary">Get Started</a>
+                </div>
+                <div class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-bg">
+            <canvas id="hero-canvas"></canvas>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        Invest Smart,<br>
+                        <span class="gradient-text">Grow Faster</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Join thousands of investors earning daily returns with our advanced AI-powered investment platform. Start with just $5 and watch your wealth grow.
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <h3>$1M+</h3>
+                            <p>Total Invested</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>5,000+</h3>
+                            <p>Active Users</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>180%</h3>
+                            <p>Max ROI</p>
+                        </div>
+                    </div>
+                    <div class="hero-buttons">
+                        <a href="pages/register.html" class="btn btn-primary btn-lg">
+                            Start Investing <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="#plans" class="btn btn-outline btn-lg">
+                            View Plans
+                        </a>
+                    </div>
+                    <div class="hero-bonus">
+                        <i class="fas fa-gift"></i>
+                        <span>Get $1 bonus on registration!</span>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="floating-card card-1">
+                        <i class="fas fa-chart-line"></i>
+                        <h4>Daily Returns</h4>
+                        <p>Up to 6% daily</p>
+                    </div>
+                    <div class="floating-card card-2">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Secure</h4>
+                        <p>100% Protected</p>
+                    </div>
+                    <div class="floating-card card-3">
+                        <i class="fas fa-users"></i>
+                        <h4>Referral Bonus</h4>
+                        <p>Up to 15%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Investment Plans -->
+    <section id="plans" class="plans-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Investment Plans</h2>
+                <p class="section-subtitle">Choose the perfect plan for your investment goals</p>
+            </div>
+            
+            <div class="plans-tabs">
+                <button class="tab-btn active" data-tab="regular">Regular Plans</button>
+                <button class="tab-btn" data-tab="lock">Lock Plans</button>
+            </div>
+
+            <div class="plans-grid" id="regular-plans">
+                <!-- Plan 1 -->
+                <div class="plan-card" data-aos="fade-up">
+                    <div class="plan-badge">Starter</div>
+                    <div class="plan-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h3 class="plan-name">Plan 01</h3>
+                    <div class="plan-amount">$5</div>
+                    <div class="plan-details">
+                        <div class="detail-item">
+                            <span>Daily Profit</span>
+                            <strong>$0.30</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Total Return</span>
+                            <strong>$9.00</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Duration</span>
+                            <strong>30 Days</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>ROI</span>
+                            <strong class="text-success">80%</strong>
+                        </div>
+                    </div>
+                    <a href="pages/register.html" class="btn btn-primary btn-block">Invest Now</a>
+                </div>
+
+                <!-- Plan 2 -->
+                <div class="plan-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="plan-badge">Basic</div>
+                    <div class="plan-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3 class="plan-name">Plan 02</h3>
+                    <div class="plan-amount">$12</div>
+                    <div class="plan-details">
+                        <div class="detail-item">
+                            <span>Daily Profit</span>
+                            <strong>$0.72</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Total Return</span>
+                            <strong>$21.60</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Duration</span>
+                            <strong>30 Days</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>ROI</span>
+                            <strong class="text-success">80%</strong>
+                        </div>
+                    </div>
+                    <a href="pages/register.html" class="btn btn-primary btn-block">Invest Now</a>
+                </div>
+
+                <!-- Plan 3 -->
+                <div class="plan-card featured" data-aos="fade-up" data-aos-delay="200">
+                    <div class="plan-badge popular">Popular</div>
+                    <div class="plan-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 class="plan-name">Plan 03</h3>
+                    <div class="plan-amount">$30</div>
+                    <div class="plan-details">
+                        <div class="detail-item">
+                            <span>Daily Profit</span>
+                            <strong>$1.80</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Total Return</span>
+                            <strong>$54.00</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Duration</span>
+                            <strong>30 Days</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>ROI</span>
+                            <strong class="text-success">80%</strong>
+                        </div>
+                    </div>
+                    <a href="pages/register.html" class="btn btn-primary btn-block">Invest Now</a>
+                </div>
+
+                <!-- Plan 4 -->
+                <div class="plan-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="plan-badge">Premium</div>
+                    <div class="plan-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3 class="plan-name">Plan 04</h3>
+                    <div class="plan-amount">$50</div>
+                    <div class="plan-details">
+                        <div class="detail-item">
+                            <span>Daily Profit</span>
+                            <strong>$3.00</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Total Return</span>
+                            <strong>$90.00</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Duration</span>
+                            <strong>30 Days</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>ROI</span>
+                            <strong class="text-success">80%</strong>
+                        </div>
+                    </div>
+                    <a href="pages/register.html" class="btn btn-primary btn-block">Invest Now</a>
+                </div>
+            </div>
+
+            <div class="plans-grid hidden" id="lock-plans">
+                <!-- Lock Plan 5 -->
+                <div class="plan-card" data-aos="fade-up">
+                    <div class="plan-badge">Gold Lock</div>
+                    <div class="plan-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3 class="plan-name">Plan 05</h3>
+                    <div class="plan-amount">$120</div>
+                    <div class="plan-details">
+                        <div class="detail-item">
+                            <span>Daily Profit</span>
+                            <strong>$7.20</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Total Return</span>
+                            <strong>$216.00</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Duration</span>
+                            <strong>30 Days</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>ROI</span>
+                            <strong class="text-success">80%</strong>
+                        </div>
+                    </div>
+                    <a href="pages/register.html" class="btn btn-primary btn-block">Invest Now</a>
+                </div>
+
+                <!-- Lock Plan 6 -->
+                <div class="plan-card featured" data-aos="fade-up" data-aos-delay="100">
+                    <div class="plan-badge popular">Best Value</div>
+                    <div class="plan-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3 class="plan-name">Plan 06</h3>
+                    <div class="plan-amount">$250</div>
+                    <div class="plan-details">
+                        <div class="detail-item">
+                            <span>Daily Profit</span>
+                            <strong>$15.00</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Total Return</span>
+                            <strong>$450.00</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Duration</span>
+                            <strong>30 Days</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>ROI</span>
+                            <strong class="text-success">80%</strong>
+                        </div>
+                    </div>
+                    <a href="pages/register.html" class="btn btn-primary btn-block">Invest Now</a>
+                </div>
+
+                <!-- Lock Plan 7 -->
+                <div class="plan-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="plan-badge">Diamond Lock</div>
+                    <div class="plan-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3 class="plan-name">Plan 07</h3>
+                    <div class="plan-amount">$550</div>
+                    <div class="plan-details">
+                        <div class="detail-item">
+                            <span>Daily Profit</span>
+                            <strong>$33.00</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Total Return</span>
+                            <strong>$990.00</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Duration</span>
+                            <strong>30 Days</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>ROI</span>
+                            <strong class="text-success">80%</strong>
+                        </div>
+                    </div>
+                    <a href="pages/register.html" class="btn btn-primary btn-block">Invest Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Why Choose GREEN MAX?</h2>
+                <p class="section-subtitle">Experience the future of investment with our cutting-edge platform</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card" data-aos="zoom-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Daily Returns</h3>
+                    <p>Earn consistent daily profits from your investments with guaranteed returns</p>
+                </div>
+                
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>3-Level Referral</h3>
+                    <p>Earn 12%, 2%, and 1% commission from your referral network</p>
+                </div>
+                
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Secure Platform</h3>
+                    <p>Bank-level security with encrypted transactions and data protection</p>
+                </div>
+                
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="feature-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h3>Instant Withdrawals</h3>
+                    <p>Withdraw your earnings anytime with minimal processing time</p>
+                </div>
+                
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile Friendly</h3>
+                    <p>Access your investments anywhere, anytime from any device</p>
+                </div>
+                
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="500">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Our dedicated team is always ready to assist you</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <i class="fas fa-leaf"></i>
+                        <span>GREEN MAX</span>
+                    </div>
+                    <p>Your trusted partner in smart investments. Grow your wealth with confidence.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#plans">Plans</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="pages/login.html">Login</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Connect With Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 GREEN MAX. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
