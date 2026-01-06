@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Investments - GREEN MAX</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/mining-machines.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .plans-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn:hover {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: var(--primary-color);
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--dark-bg);
+            border-color: transparent;
+        }
+        
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .plan-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
+        }
+        
+        .plan-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--primary-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .plan-badge.popular {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--dark-bg);
+        }
+        
+        .plan-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+        }
+        
+        .plan-name {
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .plan-amount {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .plan-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-item span {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        .detail-item strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        .text-success {
+            color: var(--success-color) !important;
+        }
+        
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 14, 39, 0.9);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar (same as dashboard) -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-leaf"></i>
+                    <span>GREEN MAX</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="menu-section-title">Main</div>
+                    <a href="dashboard.html" class="menu-item">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="investments.html" class="menu-item active">
+                        <i class="fas fa-chart-line"></i>
+                        <span>My Investments</span>
+                    </a>
+                    <a href="deposit.html" class="menu-item">
+                        <i class="fas fa-wallet"></i>
+                        <span>Deposit</span>
+                    </a>
+                    <a href="withdraw.html" class="menu-item">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>Withdraw</span>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">Network</div>
+                    <a href="referrals.html" class="menu-item">
+                        <i class="fas fa-users"></i>
+                        <span>My Referrals</span>
+                    </a>
+                    <a href="commissions.html" class="menu-item">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <span>Commissions</span>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">Account</div>
+                    <a href="transactions.html" class="menu-item">
+                        <i class="fas fa-history"></i>
+                        <span>Transactions</span>
+                    </a>
+                    <a href="profile.html" class="menu-item">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                    <a href="settings.html" class="menu-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar (same as dashboard) -->
+            <div class="top-bar">
+                <button class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                
+                <div class="top-bar-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <button class="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    
+                    <div class="user-profile">
+                        <div class="user-avatar">JD</div>
+                        <div class="user-info">
+                            <h4>John Doe</h4>
+                            <p>john@example.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="dashboard-content">
+                <div class="page-header">
+                    <h1>My Investments</h1>
+                    <p>Choose a mining plan and start earning daily profits</p>
+                </div>
+
+                <!-- Balance Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Available Balance</h3>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <div style="font-size: 2.5rem; font-weight: 700; color: var(--primary-color);" id="availableBalance">$0.00</div>
+                            <p style="color: var(--text-secondary); margin-top: 0.5rem;">Ready to invest</p>
+                        </div>
+                        <a href="deposit.html" class="btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                            Add Funds
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Plans Tabs -->
+                <div class="plans-tabs">
+                    <button class="tab-btn active" onclick="switchTab('regular')">Regular Miners</button>
+                    <button class="tab-btn" onclick="switchTab('lock')">Lock Miners</button>
+                </div>
+
+                <!-- Regular Plans -->
+                <div id="regular-plans" class="plans-grid">
+                    <!-- Plans will be loaded here -->
+                </div>
+
+                <!-- Lock Plans -->
+                <div id="lock-plans" class="plans-grid hidden">
+                    <!-- Plans will be loaded here -->
+                </div>
+
+                <!-- Active Investments -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">My Active Investments</h3>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Plan</th>
+                                    <th>Amount</th>
+                                    <th>Daily Profit</th>
+                                    <th>Earned</th>
+                                    <th>Remaining</th>
+                                    <th>Progress</th>
+                                    <th>Status</th>
+                                    <th>End Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="myInvestments">
+                                <tr>
+                                    <td colspan="8" style="text-align: center; padding: 2rem;">
+                                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color);"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Investment Modal -->
+    <div id="investmentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Create Investment</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="investmentForm">
+                <div class="form-group">
+                    <label>Plan</label>
+                    <input type="text" id="modalPlanName" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Investment Amount</label>
+                    <input type="number" id="modalAmount" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Daily Profit</label>
+                    <input type="text" id="modalDailyProfit" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Total Return (30 days)</label>
+                    <input type="text" id="modalTotalReturn" readonly>
+                </div>
+                <div class="form-group">
+                    <label>ROI</label>
+                    <input type="text" id="modalROI" readonly>
+                </div>
+                <input type="hidden" id="modalPlanId">
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-check"></i>
+                    Confirm Investment
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/dashboard.js"></script>
+    <script src="../js/mining-machines.js"></script>
+    <script>
+        checkAuth();
+
+        let plans = [];
+        let selectedPlan = null;
+
+        // Load page data
+        async function loadPage() {
+            try {
+                showLoading();
+                
+                // Load user balance
+                const profile = await apiRequest('/auth/profile');
+                document.getElementById('availableBalance').textContent = formatCurrency(profile.data.balance);
+                
+                // Load plans
+                const plansResponse = await apiRequest('/plans');
+                plans = plansResponse.data;
+                
+                renderPlans();
+                
+                // Load user investments
+                await loadInvestments();
+                
+                hideLoading();
+            } catch (error) {
+                hideLoading();
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Render plans
+        function renderPlans() {
+            const regularPlans = plans.filter(p => p.type === 'regular');
+            const lockPlans = plans.filter(p => p.type === 'lock');
+            
+            document.getElementById('regular-plans').innerHTML = regularPlans.map(plan => createPlanCard(plan)).join('');
+            document.getElementById('lock-plans').innerHTML = lockPlans.map(plan => createPlanCard(plan)).join('');
+            
+            // Initialize mining machines
+            setTimeout(() => {
+                if (typeof initMiningMachines === 'function') {
+                    initMiningMachines();
+                }
+            }, 100);
+        }
+
+        // Create plan card HTML
+        function createPlanCard(plan) {
+            const roi = ((plan.totalReturn - plan.amount) / plan.amount * 100).toFixed(0);
+            return `
+                <div class="plan-card">
+                    ${plan.planNumber === 3 || plan.planNumber === 6 ? '<div class="plan-badge popular">Popular</div>' : '<div class="plan-badge">Plan ${String(plan.planNumber).padStart(2, '0')}</div>'}
+                    <div class="plan-icon"></div>
+                    <h3 class="plan-name">${plan.name}</h3>
+                    <div class="plan-amount">${formatCurrency(plan.amount)}</div>
+                    <div class="plan-details">
+                        <div class="detail-item">
+                            <span>Daily Profit</span>
+                            <strong>${formatCurrency(plan.dailyProfit)}</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Total Return</span>
+                            <strong>${formatCurrency(plan.totalReturn)}</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Duration</span>
+                            <strong>${plan.duration} Days</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>ROI</span>
+                            <strong class="text-success">${roi}%</strong>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-block" onclick="openInvestmentModal('${plan._id}')">
+                        <i class="fas fa-rocket"></i>
+                        Start Mining
+                    </button>
+                </div>
+            `;
+        }
+
+        // Switch tabs
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (tab === 'regular') {
+                document.getElementById('regular-plans').classList.remove('hidden');
+                document.getElementById('lock-plans').classList.add('hidden');
+            } else {
+                document.getElementById('regular-plans').classList.add('hidden');
+                document.getElementById('lock-plans').classList.remove('hidden');
+            }
+            
+            // Re-initialize mining machines
+            setTimeout(() => {
+                if (typeof initMiningMachines === 'function') {
+                    initMiningMachines();
+                }
+            }, 100);
+        }
+
+        // Open investment modal
+        function openInvestmentModal(planId) {
+            selectedPlan = plans.find(p => p._id === planId);
+            if (!selectedPlan) return;
+            
+            const roi = ((selectedPlan.totalReturn - selectedPlan.amount) / selectedPlan.amount * 100).toFixed(0);
+            
+            document.getElementById('modalPlanName').value = selectedPlan.name;
+            document.getElementById('modalAmount').value = formatCurrency(selectedPlan.amount);
+            document.getElementById('modalDailyProfit').value = formatCurrency(selectedPlan.dailyProfit);
+            document.getElementById('modalTotalReturn').value = formatCurrency(selectedPlan.totalReturn);
+            document.getElementById('modalROI').value = roi + '%';
+            document.getElementById('modalPlanId').value = planId;
+            
+            document.getElementById('investmentModal').classList.add('active');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('investmentModal').classList.remove('active');
+        }
+
+        // Handle investment form
+        document.getElementById('investmentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            try {
+                showLoading();
+                
+                const planId = document.getElementById('modalPlanId').value;
+                
+                await apiRequest('/investments/create', {
+                    method: 'POST',
+                    body: JSON.stringify({ planId })
+                });
+                
+                hideLoading();
+                closeModal();
+                showToast('Investment created successfully!', 'success');
+                
+                // Reload page
+                setTimeout(() => location.reload(), 1500);
+            } catch (error) {
+                hideLoading();
+                showToast(error.message, 'error');
+            }
+        });
+
+        // Load investments
+        async function loadInvestments() {
+            try {
+                const response = await apiRequest('/investments/user');
+                const investments = response.data;
+                
+                const tbody = document.getElementById('myInvestments');
+                
+                if (investments.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="8" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                                No investments yet. Start investing now!
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                tbody.innerHTML = investments.map(inv => {
+                    const progress = (inv.daysCompleted / inv.duration) * 100;
+                    return `
+                        <tr>
+                            <td>Plan ${String(inv.planNumber || 'N/A').padStart(2, '0')}</td>
+                            <td>${formatCurrency(inv.amount)}</td>
+                            <td>${formatCurrency(inv.dailyProfit)}</td>
+                            <td>${formatCurrency(inv.earnedProfit)}</td>
+                            <td>${formatCurrency(inv.remainingProfit)}</td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div class="progress-bar" style="flex: 1;">
+                                        <div class="progress-fill" style="width: ${progress}%"></div>
+                                    </div>
+                                    <span style="font-size: 0.75rem;">${inv.daysCompleted}/${inv.duration}</span>
+                                </div>
+                            </td>
+                            <td><span class="status-badge ${inv.status}">${inv.status}</span></td>
+                            <td>${formatDate(inv.endDate)}</td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading investments:', error);
+            }
+        }
+
+        // Load page
+        loadPage();
+    </script>
+</body>
+</html>
