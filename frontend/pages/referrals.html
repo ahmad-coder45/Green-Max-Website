@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referrals - GREEN MAX</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .referral-card {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 16px;
+            padding: 2rem;
+            color: var(--dark-bg);
+            margin-bottom: 2rem;
+        }
+        
+        .referral-link-box {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .referral-link-box input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 0.75rem;
+            border-radius: 8px;
+            color: var(--dark-bg);
+            font-weight: 600;
+        }
+        
+        .referral-link-box button {
+            background: var(--dark-bg);
+            color: var(--primary-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .referral-link-box button:hover {
+            transform: scale(1.05);
+        }
+        
+        .level-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .level-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .level-card .level-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .level-card .level-name {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .level-card .level-count {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+        
+        .level-card .level-commission {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .referral-tree {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+        
+        .tree-level {
+            margin-bottom: 2rem;
+        }
+        
+        .tree-level-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .tree-level-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+        
+        .tree-level-title {
+            flex: 1;
+            font-weight: 600;
+        }
+        
+        .tree-level-count {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        .referral-list {
+            display: grid;
+            gap: 0.75rem;
+        }
+        
+        .referral-item {
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .referral-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--dark-bg);
+        }
+        
+        .referral-info {
+            flex: 1;
+        }
+        
+        .referral-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .referral-date {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        .referral-earnings {
+            text-align: right;
+        }
+        
+        .referral-amount {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+        
+        .referral-status {
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-leaf"></i>
+                    <span>GREEN MAX</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="menu-section-title">Main</div>
+                    <a href="dashboard.html" class="menu-item">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="investments.html" class="menu-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>My Investments</span>
+                    </a>
+                    <a href="deposit.html" class="menu-item">
+                        <i class="fas fa-wallet"></i>
+                        <span>Deposit</span>
+                    </a>
+                    <a href="withdraw.html" class="menu-item">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>Withdraw</span>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">Network</div>
+                    <a href="referrals.html" class="menu-item active">
+                        <i class="fas fa-users"></i>
+                        <span>My Referrals</span>
+                    </a>
+                    <a href="commissions.html" class="menu-item">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <span>Commissions</span>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">Account</div>
+                    <a href="transactions.html" class="menu-item">
+                        <i class="fas fa-history"></i>
+                        <span>Transactions</span>
+                    </a>
+                    <a href="profile.html" class="menu-item">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                    <a href="settings.html" class="menu-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <button class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                
+                <div class="top-bar-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <button class="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    
+                    <div class="user-profile">
+                        <div class="user-avatar">JD</div>
+                        <div class="user-info">
+                            <h4>John Doe</h4>
+                            <p>john@example.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="dashboard-content">
+                <div class="page-header">
+                    <h1>My Referrals</h1>
+                    <p>Invite friends and earn up to 15% commission on their investments</p>
+                </div>
+
+                <!-- Referral Link Card -->
+                <div class="referral-card">
+                    <h2 style="margin-bottom: 0.5rem;">Your Referral Link</h2>
+                    <p style="opacity: 0.9; margin-bottom: 1rem;">Share this link with your friends and earn commission on their investments</p>
+                    <div class="referral-link-box">
+                        <input type="text" id="referralLink" readonly>
+                        <button onclick="copyReferralLink()">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <button onclick="shareReferralLink()">
+                            <i class="fas fa-share-alt"></i> Share
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Level Stats -->
+                <div class="level-stats">
+                    <div class="level-card">
+                        <div class="level-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="level-name">Level 1 Referrals</div>
+                        <div class="level-count" id="level1Count">0</div>
+                        <div class="level-commission">12% Commission</div>
+                    </div>
+                    
+                    <div class="level-card">
+                        <div class="level-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="level-name">Level 2 Referrals</div>
+                        <div class="level-count" id="level2Count">0</div>
+                        <div class="level-commission">2% Commission</div>
+                    </div>
+                    
+                    <div class="level-card">
+                        <div class="level-icon">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <div class="level-name">Level 3 Referrals</div>
+                        <div class="level-count" id="level3Count">0</div>
+                        <div class="level-commission">1% Commission</div>
+                    </div>
+                    
+                    <div class="level-card">
+                        <div class="level-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="level-name">Total Earnings</div>
+                        <div class="level-count" id="totalEarnings">$0.00</div>
+                        <div class="level-commission">All Levels</div>
+                    </div>
+                </div>
+
+                <!-- Referral Tree -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Referral Network</h3>
+                    </div>
+                    
+                    <div id="referralTree">
+                        <div style="text-align: center; padding: 3rem;">
+                            <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color);"></i>
+                            <p style="margin-top: 1rem; color: var(--text-secondary);">Loading referral network...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Commission History -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Commission History</h3>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>From User</th>
+                                    <th>Level</th>
+                                    <th>Investment Amount</th>
+                                    <th>Commission</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="commissionHistory">
+                                <tr>
+                                    <td colspan="5" style="text-align: center; padding: 2rem;">
+                                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color);"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/dashboard.js"></script>
+    <script>
+        checkAuth();
+
+        // Load referral data
+        async function loadReferralData() {
+            try {
+                showLoading();
+                
+                // Get user profile for referral code
+                const profile = await apiRequest('/auth/profile');
+                const referralCode = profile.data.referralCode;
+                const referralLink = `${window.location.origin}/pages/register.html?ref=${referralCode}`;
+                document.getElementById('referralLink').value = referralLink;
+                
+                // Load referral tree
+                const treeData = await apiRequest('/referrals/tree');
+                
+                // Update level counts
+                document.getElementById('level1Count').textContent = treeData.data.level1?.length || 0;
+                document.getElementById('level2Count').textContent = treeData.data.level2?.length || 0;
+                document.getElementById('level3Count').textContent = treeData.data.level3?.length || 0;
+                
+                // Calculate total earnings
+                const totalEarnings = treeData.data.totalEarnings || 0;
+                document.getElementById('totalEarnings').textContent = formatCurrency(totalEarnings);
+                
+                // Render referral tree
+                renderReferralTree(treeData.data);
+                
+                // Load commission history
+                await loadCommissionHistory();
+                
+                hideLoading();
+            } catch (error) {
+                hideLoading();
+                console.error('Error loading referral data:', error);
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Render referral tree
+        function renderReferralTree(data) {
+            const container = document.getElementById('referralTree');
+            
+            if (!data.level1 || data.level1.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 3rem;">
+                        <i class="fas fa-users" style="font-size: 3rem; color: var(--text-secondary); opacity: 0.5;"></i>
+                        <p style="margin-top: 1rem; color: var(--text-secondary);">No referrals yet. Share your link to start earning!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            
+            // Level 1
+            if (data.level1 && data.level1.length > 0) {
+                html += `
+                    <div class="tree-level">
+                        <div class="tree-level-header">
+                            <div class="tree-level-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="tree-level-title">Level 1 (12% Commission)</div>
+                            <div class="tree-level-count">${data.level1.length} referrals</div>
+                        </div>
+                        <div class="referral-list">
+                            ${data.level1.map(ref => createReferralItem(ref, 1)).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Level 2
+            if (data.level2 && data.level2.length > 0) {
+                html += `
+                    <div class="tree-level">
+                        <div class="tree-level-header">
+                            <div class="tree-level-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="tree-level-title">Level 2 (2% Commission)</div>
+                            <div class="tree-level-count">${data.level2.length} referrals</div>
+                        </div>
+                        <div class="referral-list">
+                            ${data.level2.map(ref => createReferralItem(ref, 2)).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Level 3
+            if (data.level3 && data.level3.length > 0) {
+                html += `
+                    <div class="tree-level">
+                        <div class="tree-level-header">
+                            <div class="tree-level-icon">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                            <div class="tree-level-title">Level 3 (1% Commission)</div>
+                            <div class="tree-level-count">${data.level3.length} referrals</div>
+                        </div>
+                        <div class="referral-list">
+                            ${data.level3.map(ref => createReferralItem(ref, 3)).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+        }
+
+        // Create referral item HTML
+        function createReferralItem(referral, level) {
+            const initials = (referral.fullName || referral.username || 'U')
+                .split(' ')
+                .map(n => n[0])
+                .join('')
+                .toUpperCase()
+                .slice(0, 2);
+            
+            const earnings = referral.totalInvestment ? 
+                (referral.totalInvestment * (level === 1 ? 0.12 : level === 2 ? 0.02 : 0.01)) : 0;
+            
+            return `
+                <div class="referral-item">
+                    <div class="referral-avatar">${initials}</div>
+                    <div class="referral-info">
+                        <div class="referral-name">${referral.fullName || referral.username}</div>
+                        <div class="referral-date">Joined ${formatDate(referral.createdAt)}</div>
+                    </div>
+                    <div class="referral-earnings">
+                        <div class="referral-amount">${formatCurrency(earnings)}</div>
+                        <div class="referral-status">
+                            <span class="status-badge ${referral.totalInvestment > 0 ? 'active' : 'pending'}">
+                                ${referral.totalInvestment > 0 ? 'Active' : 'Inactive'}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Load commission history
+        async function loadCommissionHistory() {
+            try {
+                const response = await apiRequest('/referrals/commissions');
+                const commissions = response.data.slice(0, 20);
+                
+                const tbody = document.getElementById('commissionHistory');
+                
+                if (commissions.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                                No commissions earned yet
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                tbody.innerHTML = commissions.map(comm => `
+                    <tr>
+                        <td>${comm.fromUser?.fullName || comm.fromUser?.username || 'Unknown'}</td>
+                        <td>Level ${comm.level}</td>
+                        <td>${formatCurrency(comm.investmentAmount)}</td>
+                        <td style="color: var(--success-color); font-weight: 600;">${formatCurrency(comm.amount)}</td>
+                        <td>${formatDate(comm.createdAt)}</td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading commission history:', error);
+            }
+        }
+
+        // Copy referral link
+        function copyReferralLink() {
+            const input = document.getElementById('referralLink');
+            copyToClipboard(input.value);
+        }
+
+        // Share referral link
+        function shareReferralLink() {
+            const link = document.getElementById('referralLink').value;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Join GREEN MAX',
+                    text: 'Start earning daily profits with GREEN MAX investment platform!',
+                    url: link
+                }).catch(err => console.log('Error sharing:', err));
+            } else {
+                copyReferralLink();
+                showToast('Link copied! Share it with your friends.', 'success');
+            }
+        }
+
+        // Load page
+        loadReferralData();
+    </script>
+</body>
+</html>
