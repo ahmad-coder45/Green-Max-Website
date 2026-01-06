@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - GREEN MAX</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-leaf"></i>
+                    <span>GREEN MAX</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="menu-section-title">Main</div>
+                    <a href="dashboard.html" class="menu-item active">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="investments.html" class="menu-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>My Investments</span>
+                    </a>
+                    <a href="deposit.html" class="menu-item">
+                        <i class="fas fa-wallet"></i>
+                        <span>Deposit</span>
+                    </a>
+                    <a href="withdraw.html" class="menu-item">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>Withdraw</span>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">Network</div>
+                    <a href="referrals.html" class="menu-item">
+                        <i class="fas fa-users"></i>
+                        <span>My Referrals</span>
+                    </a>
+                    <a href="commissions.html" class="menu-item">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <span>Commissions</span>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">Account</div>
+                    <a href="transactions.html" class="menu-item">
+                        <i class="fas fa-history"></i>
+                        <span>Transactions</span>
+                    </a>
+                    <a href="profile.html" class="menu-item">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                    <a href="settings.html" class="menu-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <button class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                
+                <div class="top-bar-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <button class="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    
+                    <div class="user-profile">
+                        <div class="user-avatar">JD</div>
+                        <div class="user-info">
+                            <h4>John Doe</h4>
+                            <p>john@example.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <div class="page-header">
+                    <h1>Welcome Back! 👋</h1>
+                    <p>Here's what's happening with your investments today</p>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card fade-in">
+                        <div class="stat-header">
+                            <div class="stat-icon primary">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>12.5%</span>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="totalBalance">$0.00</div>
+                        <div class="stat-label">Total Balance</div>
+                    </div>
+
+                    <div class="stat-card fade-in" style="animation-delay: 0.1s">
+                        <div class="stat-header">
+                            <div class="stat-icon secondary">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>8.2%</span>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="investmentBalance">$0.00</div>
+                        <div class="stat-label">Investment Balance</div>
+                    </div>
+
+                    <div class="stat-card fade-in" style="animation-delay: 0.2s">
+                        <div class="stat-header">
+                            <div class="stat-icon warning">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>15.3%</span>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="totalEarnings">$0.00</div>
+                        <div class="stat-label">Total Earnings</div>
+                    </div>
+
+                    <div class="stat-card fade-in" style="animation-delay: 0.3s">
+                        <div class="stat-header">
+                            <div class="stat-icon danger">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>5</span>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="totalReferrals">0</div>
+                        <div class="stat-label">Total Referrals</div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card fade-in" style="animation-delay: 0.4s">
+                    <div class="card-header">
+                        <h3 class="card-title">Quick Actions</h3>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <a href="investments.html" class="btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                            New Investment
+                        </a>
+                        <a href="deposit.html" class="btn btn-outline">
+                            <i class="fas fa-arrow-down"></i>
+                            Deposit Funds
+                        </a>
+                        <a href="withdraw.html" class="btn btn-outline">
+                            <i class="fas fa-arrow-up"></i>
+                            Withdraw
+                        </a>
+                        <a href="referrals.html" class="btn btn-outline">
+                            <i class="fas fa-share-alt"></i>
+                            Invite Friends
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Active Investments -->
+                <div class="card fade-in" style="animation-delay: 0.5s">
+                    <div class="card-header">
+                        <h3 class="card-title">Active Investments</h3>
+                        <a href="investments.html" class="btn btn-sm btn-outline">View All</a>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Plan</th>
+                                    <th>Amount</th>
+                                    <th>Daily Profit</th>
+                                    <th>Earned</th>
+                                    <th>Progress</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="activeInvestments">
+                                <tr>
+                                    <td colspan="6" style="text-align: center; padding: 2rem;">
+                                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color);"></i>
+                                        <p style="margin-top: 1rem; color: var(--text-secondary);">Loading investments...</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Recent Transactions -->
+                <div class="card fade-in" style="animation-delay: 0.6s">
+                    <div class="card-header">
+                        <h3 class="card-title">Recent Transactions</h3>
+                        <a href="transactions.html" class="btn btn-sm btn-outline">View All</a>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentTransactions">
+                                <tr>
+                                    <td colspan="4" style="text-align: center; padding: 2rem;">
+                                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color);"></i>
+                                        <p style="margin-top: 1rem; color: var(--text-secondary);">Loading transactions...</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Referral Link -->
+                <div class="card fade-in" style="animation-delay: 0.7s">
+                    <div class="card-header">
+                        <h3 class="card-title">Your Referral Link</h3>
+                    </div>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <input type="text" id="referralLink" readonly 
+                               style="flex: 1; padding: 0.75rem; background: var(--dark-bg); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-primary);">
+                        <button class="btn btn-primary" onclick="copyReferralLink()">
+                            <i class="fas fa-copy"></i>
+                            Copy
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/dashboard.js"></script>
+    <script>
+        // Check authentication
+        if (!checkAuth()) {
+            window.location.href = 'login.html';
+        }
+
+        // Load dashboard data
+        async function loadDashboard() {
+            try {
+                showLoading();
+
+                // Load user profile
+                const profile = await apiRequest('/auth/profile');
+                
+                // Update stats
+                document.getElementById('totalBalance').textContent = formatCurrency(profile.data.balance || 0);
+                document.getElementById('investmentBalance').textContent = formatCurrency(profile.data.investmentBalance || 0);
+                document.getElementById('totalEarnings').textContent = formatCurrency(profile.data.totalEarnings || 0);
+                
+                // Load referral count
+                const referrals = await apiRequest('/referrals/tree');
+                document.getElementById('totalReferrals').textContent = referrals.data.totalReferrals || 0;
+
+                // Set referral link
+                const referralCode = profile.data.referralCode;
+                const referralLink = `${window.location.origin}/pages/register.html?ref=${referralCode}`;
+                document.getElementById('referralLink').value = referralLink;
+
+                // Load active investments
+                await loadActiveInvestments();
+
+                // Load recent transactions
+                await loadRecentTransactions();
+
+                hideLoading();
+            } catch (error) {
+                hideLoading();
+                console.error('Error loading dashboard:', error);
+                showToast(error.message || 'Failed to load dashboard', 'error');
+            }
+        }
+
+        // Load active investments
+        async function loadActiveInvestments() {
+            try {
+                const response = await apiRequest('/investments/user');
+                const investments = response.data.filter(inv => inv.status === 'active').slice(0, 5);
+
+                const tbody = document.getElementById('activeInvestments');
+                
+                if (investments.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                                No active investments yet. <a href="investments.html" style="color: var(--primary-color);">Start investing now!</a>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                tbody.innerHTML = investments.map(inv => {
+                    const progress = (inv.daysCompleted / inv.duration) * 100;
+                    return `
+                        <tr>
+                            <td>Plan ${inv.planNumber || 'N/A'}</td>
+                            <td>${formatCurrency(inv.amount)}</td>
+                            <td>${formatCurrency(inv.dailyProfit)}</td>
+                            <td>${formatCurrency(inv.earnedProfit)}</td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div class="progress-bar" style="flex: 1;">
+                                        <div class="progress-fill" style="width: ${progress}%"></div>
+                                    </div>
+                                    <span style="font-size: 0.75rem; color: var(--text-secondary);">${inv.daysCompleted}/${inv.duration}</span>
+                                </div>
+                            </td>
+                            <td><span class="status-badge active">Active</span></td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading investments:', error);
+            }
+        }
+
+        // Load recent transactions
+        async function loadRecentTransactions() {
+            try {
+                // Load deposits and withdrawals
+                const [deposits, withdrawals] = await Promise.all([
+                    apiRequest('/deposits/user'),
+                    apiRequest('/withdrawals/user')
+                ]);
+
+                const transactions = [
+                    ...deposits.data.map(d => ({ ...d, type: 'Deposit' })),
+                    ...withdrawals.data.map(w => ({ ...w, type: 'Withdrawal' }))
+                ]
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                .slice(0, 5);
+
+                const tbody = document.getElementById('recentTransactions');
+                
+                if (transactions.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="4" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                                No transactions yet
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                tbody.innerHTML = transactions.map(tx => `
+                    <tr>
+                        <td>
+                            <i class="fas fa-${tx.type === 'Deposit' ? 'arrow-down' : 'arrow-up'}" 
+                               style="color: ${tx.type === 'Deposit' ? 'var(--success-color)' : 'var(--warning-color)'}"></i>
+                            ${tx.type}
+                        </td>
+                        <td>${formatCurrency(tx.amount)}</td>
+                        <td>${formatDate(tx.createdAt)}</td>
+                        <td><span class="status-badge ${tx.status}">${tx.status}</span></td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading transactions:', error);
+            }
+        }
+
+        // Copy referral link
+        function copyReferralLink() {
+            const input = document.getElementById('referralLink');
+            copyToClipboard(input.value);
+        }
+
+        // Load dashboard on page load
+        loadDashboard();
+    </script>
+</body>
+</html>
