@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deposit - GREEN MAX</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .payment-method {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .payment-method:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+        
+        .payment-method.selected {
+            border-color: var(--primary-color);
+            background: rgba(0, 255, 136, 0.1);
+        }
+        
+        .payment-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .payment-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .payment-desc {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        .deposit-form {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .wallet-address {
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .wallet-address input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-family: monospace;
+        }
+        
+        .qr-code {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+        
+        .qr-code img {
+            max-width: 200px;
+        }
+        
+        .info-box {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .info-box i {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+        
+        .warning-box {
+            background: rgba(255, 165, 2, 0.1);
+            border: 1px solid var(--warning-color);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .warning-box i {
+            color: var(--warning-color);
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-leaf"></i>
+                    <span>GREEN MAX</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="menu-section-title">Main</div>
+                    <a href="dashboard.html" class="menu-item">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="investments.html" class="menu-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>My Investments</span>
+                    </a>
+                    <a href="deposit.html" class="menu-item active">
+                        <i class="fas fa-wallet"></i>
+                        <span>Deposit</span>
+                    </a>
+                    <a href="withdraw.html" class="menu-item">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>Withdraw</span>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">Network</div>
+                    <a href="referrals.html" class="menu-item">
+                        <i class="fas fa-users"></i>
+                        <span>My Referrals</span>
+                    </a>
+                    <a href="commissions.html" class="menu-item">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <span>Commissions</span>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">Account</div>
+                    <a href="transactions.html" class="menu-item">
+                        <i class="fas fa-history"></i>
+                        <span>Transactions</span>
+                    </a>
+                    <a href="profile.html" class="menu-item">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                    <a href="settings.html" class="menu-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <button class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                
+                <div class="top-bar-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <button class="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    
+                    <div class="user-profile">
+                        <div class="user-avatar">JD</div>
+                        <div class="user-info">
+                            <h4>John Doe</h4>
+                            <p>john@example.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="dashboard-content">
+                <div class="page-header">
+                    <h1>Deposit Funds</h1>
+                    <p>Add funds to your account to start investing</p>
+                </div>
+
+                <!-- Current Balance -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Current Balance</h3>
+                    </div>
+                    <div style="font-size: 2.5rem; font-weight: 700; color: var(--primary-color);" id="currentBalance">$0.00</div>
+                </div>
+
+                <!-- Payment Methods -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Select Payment Method</h3>
+                    </div>
+                    <div class="payment-methods">
+                        <div class="payment-method" onclick="selectPayment('bitcoin')">
+                            <div class="payment-icon">
+                                <i class="fab fa-bitcoin"></i>
+                            </div>
+                            <div class="payment-name">Bitcoin</div>
+                            <div class="payment-desc">BTC Network</div>
+                        </div>
+                        
+                        <div class="payment-method" onclick="selectPayment('ethereum')">
+                            <div class="payment-icon">
+                                <i class="fab fa-ethereum"></i>
+                            </div>
+                            <div class="payment-name">Ethereum</div>
+                            <div class="payment-desc">ETH Network</div>
+                        </div>
+                        
+                        <div class="payment-method" onclick="selectPayment('usdt')">
+                            <div class="payment-icon">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="payment-name">USDT</div>
+                            <div class="payment-desc">TRC20 Network</div>
+                        </div>
+                        
+                        <div class="payment-method" onclick="selectPayment('bank')">
+                            <div class="payment-icon">
+                                <i class="fas fa-university"></i>
+                            </div>
+                            <div class="payment-name">Bank Transfer</div>
+                            <div class="payment-desc">Wire Transfer</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Deposit Form -->
+                <div class="card" id="depositFormCard" style="display: none;">
+                    <div class="card-header">
+                        <h3 class="card-title">Deposit Details</h3>
+                    </div>
+                    
+                    <div class="info-box">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Important:</strong> Send exactly the amount you enter below to the wallet address. Deposits are processed automatically after network confirmations.
+                    </div>
+                    
+                    <form id="depositForm">
+                        <div class="form-group">
+                            <label>Payment Method</label>
+                            <input type="text" id="paymentMethodDisplay" readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Deposit Amount (USD)</label>
+                            <input type="number" id="depositAmount" placeholder="Enter amount" min="5" step="0.01" required>
+                            <small style="color: var(--text-secondary); display: block; margin-top: 0.5rem;">Minimum deposit: $5.00</small>
+                        </div>
+                        
+                        <div id="walletSection" style="display: none;">
+                            <div class="form-group">
+                                <label>Send to this address:</label>
+                                <div class="wallet-address">
+                                    <input type="text" id="walletAddress" readonly>
+                                    <button type="button" class="btn btn-sm btn-outline" onclick="copyWallet()">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="qr-code" id="qrCode">
+                                <!-- QR code will be generated here -->
+                            </div>
+                            
+                            <div class="warning-box">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <strong>Warning:</strong> Only send <span id="cryptoType">cryptocurrency</span> to this address. Sending other coins may result in permanent loss.
+                            </div>
+                        </div>
+                        
+                        <div id="bankSection" style="display: none;">
+                            <div class="info-box">
+                                <p><strong>Bank Name:</strong> GREEN MAX Bank</p>
+                                <p><strong>Account Number:</strong> 1234567890</p>
+                                <p><strong>Account Name:</strong> GREEN MAX INVESTMENTS</p>
+                                <p><strong>SWIFT Code:</strong> GRNMAXXX</p>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Transaction Hash / Reference (Optional)</label>
+                            <input type="text" id="transactionHash" placeholder="Enter transaction hash or reference">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Upload Payment Proof (Optional)</label>
+                            <input type="file" id="paymentProof" accept="image/*">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-check"></i>
+                            Submit Deposit Request
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Recent Deposits -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Recent Deposits</h3>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Amount</th>
+                                    <th>Method</th>
+                                    <th>Transaction Hash</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentDeposits">
+                                <tr>
+                                    <td colspan="5" style="text-align: center; padding: 2rem;">
+                                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color);"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/dashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <script>
+        checkAuth();
+
+        let selectedMethod = null;
+
+        // Wallet addresses (replace with your actual addresses)
+        const walletAddresses = {
+            bitcoin: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
+            ethereum: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb',
+            usdt: 'TN3W4H6rK2ce4vX9YnFQHwKENnHjoxb3m9',
+            bank: 'BANK-TRANSFER'
+        };
+
+        // Load balance
+        async function loadBalance() {
+            try {
+                const profile = await apiRequest('/auth/profile');
+                document.getElementById('currentBalance').textContent = formatCurrency(profile.data.balance);
+            } catch (error) {
+                console.error('Error loading balance:', error);
+            }
+        }
+
+        // Select payment method
+        function selectPayment(method) {
+            selectedMethod = method;
+            
+            // Update UI
+            document.querySelectorAll('.payment-method').forEach(el => {
+                el.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            // Show form
+            document.getElementById('depositFormCard').style.display = 'block';
+            
+            // Update method display
+            const methodNames = {
+                bitcoin: 'Bitcoin (BTC)',
+                ethereum: 'Ethereum (ETH)',
+                usdt: 'USDT (TRC20)',
+                bank: 'Bank Transfer'
+            };
+            document.getElementById('paymentMethodDisplay').value = methodNames[method];
+            
+            // Show/hide sections
+            if (method === 'bank') {
+                document.getElementById('walletSection').style.display = 'none';
+                document.getElementById('bankSection').style.display = 'block';
+            } else {
+                document.getElementById('walletSection').style.display = 'block';
+                document.getElementById('bankSection').style.display = 'none';
+                document.getElementById('walletAddress').value = walletAddresses[method];
+                document.getElementById('cryptoType').textContent = methodNames[method];
+                generateQR(walletAddresses[method]);
+            }
+        }
+
+        // Generate QR code
+        function generateQR(address) {
+            const qrContainer = document.getElementById('qrCode');
+            qrContainer.innerHTML = '';
+            QRCode.toCanvas(address, { width: 200 }, (error, canvas) => {
+                if (error) console.error(error);
+                qrContainer.appendChild(canvas);
+            });
+        }
+
+        // Copy wallet address
+        function copyWallet() {
+            const address = document.getElementById('walletAddress').value;
+            copyToClipboard(address);
+        }
+
+        // Handle deposit form
+        document.getElementById('depositForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!selectedMethod) {
+                showToast('Please select a payment method', 'error');
+                return;
+            }
+            
+            try {
+                showLoading();
+                
+                const amount = parseFloat(document.getElementById('depositAmount').value);
+                const transactionHash = document.getElementById('transactionHash').value;
+                
+                if (amount < 5) {
+                    throw new Error('Minimum deposit is $5');
+                }
+                
+                await apiRequest('/deposits/create', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        amount,
+                        method: selectedMethod,
+                        transactionHash: transactionHash || undefined
+                    })
+                });
+                
+                hideLoading();
+                showToast('Deposit request submitted successfully! Waiting for confirmation.', 'success');
+                
+                // Reset form
+                document.getElementById('depositForm').reset();
+                document.getElementById('depositFormCard').style.display = 'none';
+                document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected'));
+                selectedMethod = null;
+                
+                // Reload deposits
+                loadDeposits();
+            } catch (error) {
+                hideLoading();
+                showToast(error.message, 'error');
+            }
+        });
+
+        // Load recent deposits
+        async function loadDeposits() {
+            try {
+                const response = await apiRequest('/deposits/user');
+                const deposits = response.data.slice(0, 10);
+                
+                const tbody = document.getElementById('recentDeposits');
+                
+                if (deposits.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                                No deposits yet
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                tbody.innerHTML = deposits.map(deposit => `
+                    <tr>
+                        <td>${formatCurrency(deposit.amount)}</td>
+                        <td>${deposit.method}</td>
+                        <td style="font-family: monospace; font-size: 0.875rem;">
+                            ${deposit.transactionHash ? deposit.transactionHash.substring(0, 20) + '...' : 'N/A'}
+                        </td>
+                        <td>${formatDate(deposit.createdAt)}</td>
+                        <td><span class="status-badge ${deposit.status}">${deposit.status}</span></td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading deposits:', error);
+            }
+        }
+
+        // Load page
+        loadBalance();
+        loadDeposits();
+    </script>
+</body>
+</html>
