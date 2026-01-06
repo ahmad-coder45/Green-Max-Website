@@ -22,11 +22,9 @@ function checkAuth() {
     return true;
 }
 
-// Logout
+// Logout - Redirect to logout page
 function logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userData');
-    window.location.href = '/pages/login.html';
+    window.location.href = 'logout.html';
 }
 
 // Format currency
@@ -91,7 +89,7 @@ function showToast(message, type = 'success') {
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
     toast.innerHTML = `
-        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+        <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
         <span>${message}</span>
     `;
     
@@ -247,17 +245,25 @@ toastStyles.textContent = `
         color: var(--danger-color);
     }
     
+    .toast-info {
+        border-left: 3px solid var(--primary-color);
+    }
+    
+    .toast-info i {
+        color: var(--primary-color);
+    }
+    
     #loader {
         position: fixed;
         top: 0;
         left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(10, 14, 39, 0.9);
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
         display: flex;
         align-items: center;
         justify-content: center;
-        z-index: 10000;
+        z-index: 9999;
     }
     
     .loader-spinner {
@@ -266,5 +272,3 @@ toastStyles.textContent = `
     }
 `;
 document.head.appendChild(toastStyles);
-
-console.log('Dashboard utilities loaded ✅');
