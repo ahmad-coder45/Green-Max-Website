@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commissions - GREEN MAX</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-leaf"></i>
+                    <span>GREEN MAX</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="menu-section-title">Main</div>
+                    <a href="dashboard.html" class="menu-item">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="investments.html" class="menu-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Investments</span>
+                    </a>
+                    <a href="deposit.html" class="menu-item">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>Deposit</span>
+                    </a>
+                    <a href="withdraw.html" class="menu-item">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>Withdraw</span>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">Referral</div>
+                    <a href="referrals.html" class="menu-item">
+                        <i class="fas fa-users"></i>
+                        <span>My Referrals</span>
+                    </a>
+                    <a href="commissions.html" class="menu-item active">
+                        <i class="fas fa-dollar-sign"></i>
+                        <span>Commissions</span>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">Account</div>
+                    <a href="transactions.html" class="menu-item">
+                        <i class="fas fa-history"></i>
+                        <span>Transactions</span>
+                    </a>
+                    <a href="profile.html" class="menu-item">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                    <a href="settings.html" class="menu-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <button class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search commissions...">
+                </div>
+                
+                <div class="top-bar-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <button class="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    
+                    <div class="user-profile">
+                        <div class="user-avatar">U</div>
+                        <div class="user-info">
+                            <h4 id="userName">User</h4>
+                            <p>Member</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <div class="page-header">
+                    <h1>Commission History</h1>
+                    <p>Track your referral earnings and commission details</p>
+                </div>
+
+                <!-- Commission Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card fade-in">
+                        <div class="stat-header">
+                            <div class="stat-icon primary">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="totalCommissions">$0.00</div>
+                        <div class="stat-label">Total Commissions</div>
+                    </div>
+
+                    <div class="stat-card fade-in" style="animation-delay: 0.1s">
+                        <div class="stat-header">
+                            <div class="stat-icon secondary">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="level1Commissions">$0.00</div>
+                        <div class="stat-label">Level 1 (12%)</div>
+                    </div>
+
+                    <div class="stat-card fade-in" style="animation-delay: 0.2s">
+                        <div class="stat-header">
+                            <div class="stat-icon warning">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="level2Commissions">$0.00</div>
+                        <div class="stat-label">Level 2 (2%)</div>
+                    </div>
+
+                    <div class="stat-card fade-in" style="animation-delay: 0.3s">
+                        <div class="stat-header">
+                            <div class="stat-icon danger">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="level3Commissions">$0.00</div>
+                        <div class="stat-label">Level 3 (1%)</div>
+                    </div>
+                </div>
+
+                <!-- Commission Breakdown -->
+                <div class="card fade-in" style="animation-delay: 0.4s">
+                    <div class="card-header">
+                        <h3 class="card-title">Commission Breakdown</h3>
+                        <div class="card-actions">
+                            <select id="filterLevel" class="form-select" style="padding: 0.5rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg);">
+                                <option value="all">All Levels</option>
+                                <option value="1">Level 1 (12%)</option>
+                                <option value="2">Level 2 (2%)</option>
+                                <option value="3">Level 3 (1%)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>From User</th>
+                                    <th>Level</th>
+                                    <th>Investment Amount</th>
+                                    <th>Commission Rate</th>
+                                    <th>Commission Earned</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="commissionsTable">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; padding: 3rem;">
+                                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color);"></i>
+                                        <p style="margin-top: 1rem; color: var(--text-secondary);">Loading commissions...</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Commission Info -->
+                <div class="card fade-in" style="animation-delay: 0.5s">
+                    <div class="card-header">
+                        <h3 class="card-title">How Commissions Work</h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="display: grid; gap: 1.5rem;">
+                            <div style="display: flex; gap: 1rem; align-items: start;">
+                                <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <i class="fas fa-user" style="color: white; font-size: 1.25rem;"></i>
+                                </div>
+                                <div>
+                                    <h4 style="margin: 0 0 0.5rem 0; color: var(--text-primary);">Level 1 - Direct Referrals (12%)</h4>
+                                    <p style="margin: 0; color: var(--text-secondary); line-height: 1.6;">Earn 12% commission when someone you directly referred makes an investment. This is your first-level referral network.</p>
+                                </div>
+                            </div>
+
+                            <div style="display: flex; gap: 1rem; align-items: start;">
+                                <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, var(--warning-color), #f39c12); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <i class="fas fa-users" style="color: white; font-size: 1.25rem;"></i>
+                                </div>
+                                <div>
+                                    <h4 style="margin: 0 0 0.5rem 0; color: var(--text-primary);">Level 2 - Indirect Referrals (2%)</h4>
+                                    <p style="margin: 0; color: var(--text-secondary); line-height: 1.6;">Earn 2% commission when your referrals' referrals make investments. This is your second-level referral network.</p>
+                                </div>
+                            </div>
+
+                            <div style="display: flex; gap: 1rem; align-items: start;">
+                                <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, var(--danger-color), #c0392b); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <i class="fas fa-user-friends" style="color: white; font-size: 1.25rem;"></i>
+                                </div>
+                                <div>
+                                    <h4 style="margin: 0 0 0.5rem 0; color: var(--text-primary);">Level 3 - Extended Network (1%)</h4>
+                                    <p style="margin: 0; color: var(--text-secondary); line-height: 1.6;">Earn 1% commission from your third-level referral network. Build a strong network to maximize your passive income.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2rem; padding: 1.5rem; background: var(--primary-color); background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.05)); border-radius: 12px; border: 1px solid rgba(76, 175, 80, 0.2);">
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <i class="fas fa-info-circle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+                                <div>
+                                    <h4 style="margin: 0 0 0.5rem 0; color: var(--text-primary);">Commission Payment</h4>
+                                    <p style="margin: 0; color: var(--text-secondary);">Commissions are credited to your account balance instantly when your referrals make investments. You can withdraw your commission earnings anytime.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/dashboard.js"></script>
+    <script>
+        // Load commissions
+        async function loadCommissions() {
+            try {
+                showLoading();
+                
+                // Load commission data
+                const response = await apiRequest('/referrals/commissions');
+                const commissions = response.data;
+                
+                // Calculate totals
+                let total = 0;
+                let level1Total = 0;
+                let level2Total = 0;
+                let level3Total = 0;
+                
+                commissions.forEach(comm => {
+                    total += comm.amount;
+                    if (comm.level === 1) level1Total += comm.amount;
+                    if (comm.level === 2) level2Total += comm.amount;
+                    if (comm.level === 3) level3Total += comm.amount;
+                });
+                
+                // Update stats
+                document.getElementById('totalCommissions').textContent = formatCurrency(total);
+                document.getElementById('level1Commissions').textContent = formatCurrency(level1Total);
+                document.getElementById('level2Commissions').textContent = formatCurrency(level2Total);
+                document.getElementById('level3Commissions').textContent = formatCurrency(level3Total);
+                
+                // Render table
+                renderCommissionsTable(commissions);
+                
+                hideLoading();
+            } catch (error) {
+                hideLoading();
+                showToast(error.message, 'error');
+                document.getElementById('commissionsTable').innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 3rem;">
+                            <i class="fas fa-exclamation-circle" style="font-size: 2rem; color: var(--danger-color);"></i>
+                            <p style="margin-top: 1rem; color: var(--text-secondary);">Failed to load commissions</p>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Render commissions table
+        function renderCommissionsTable(commissions) {
+            const tbody = document.getElementById('commissionsTable');
+            
+            if (commissions.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 3rem;">
+                            <i class="fas fa-inbox" style="font-size: 2rem; color: var(--text-secondary);"></i>
+                            <p style="margin-top: 1rem; color: var(--text-secondary);">No commissions yet</p>
+                            <p style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">Start referring friends to earn commissions!</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = commissions.map(comm => {
+                const rate = comm.level === 1 ? '12%' : comm.level === 2 ? '2%' : '1%';
+                const levelBadge = comm.level === 1 ? 'primary' : comm.level === 2 ? 'warning' : 'danger';
+                
+                return `
+                    <tr>
+                        <td>${formatDate(comm.createdAt)}</td>
+                        <td>${comm.fromUser?.fullName || comm.fromUser?.username || 'Unknown'}</td>
+                        <td><span class="status-badge ${levelBadge}">Level ${comm.level}</span></td>
+                        <td>${formatCurrency(comm.investmentAmount)}</td>
+                        <td>${rate}</td>
+                        <td><strong style="color: var(--success-color);">${formatCurrency(comm.amount)}</strong></td>
+                        <td><span class="status-badge active">Paid</span></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Filter by level
+        document.getElementById('filterLevel').addEventListener('change', async (e) => {
+            const level = e.target.value;
+            
+            try {
+                showLoading();
+                const response = await apiRequest('/referrals/commissions');
+                let commissions = response.data;
+                
+                if (level !== 'all') {
+                    commissions = commissions.filter(c => c.level === parseInt(level));
+                }
+                
+                renderCommissionsTable(commissions);
+                hideLoading();
+            } catch (error) {
+                hideLoading();
+                showToast(error.message, 'error');
+            }
+        });
+
+        // Load data
+        loadCommissions();
+    </script>
+</body>
+</html>
