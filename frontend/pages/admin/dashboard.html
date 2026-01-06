@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - GREEN MAX</title>
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-leaf"></i>
+                    <span>GREEN MAX</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="menu-section-title">Admin</div>
+                    <a href="dashboard.html" class="menu-item active">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="users.html" class="menu-item">
+                        <i class="fas fa-users"></i>
+                        <span>Users</span>
+                    </a>
+                    <a href="deposits.html" class="menu-item">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>Deposits</span>
+                        <span class="badge" id="pendingDeposits">0</span>
+                    </a>
+                    <a href="withdrawals.html" class="menu-item">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>Withdrawals</span>
+                        <span class="badge" id="pendingWithdrawals">0</span>
+                    </a>
+                    <a href="investments.html" class="menu-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Investments</span>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">User View</div>
+                    <a href="../dashboard.html" class="menu-item">
+                        <i class="fas fa-home"></i>
+                        <span>User Dashboard</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <button class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                
+                <div class="top-bar-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">5</span>
+                    </button>
+                    
+                    <button class="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    
+                    <div class="user-profile">
+                        <div class="user-avatar">AD</div>
+                        <div class="user-info">
+                            <h4>Admin</h4>
+                            <p>Administrator</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <div class="page-header">
+                    <h1>Admin Dashboard</h1>
+                    <p>Platform overview and statistics</p>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card fade-in">
+                        <div class="stat-header">
+                            <div class="stat-icon primary">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span id="userGrowth">0%</span>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="totalUsers">0</div>
+                        <div class="stat-label">Total Users</div>
+                    </div>
+
+                    <div class="stat-card fade-in" style="animation-delay: 0.1s">
+                        <div class="stat-header">
+                            <div class="stat-icon secondary">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span id="investmentGrowth">0%</span>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="totalInvestments">$0.00</div>
+                        <div class="stat-label">Total Investments</div>
+                    </div>
+
+                    <div class="stat-card fade-in" style="animation-delay: 0.2s">
+                        <div class="stat-header">
+                            <div class="stat-icon warning">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span id="depositGrowth">0%</span>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="totalDeposits">$0.00</div>
+                        <div class="stat-label">Total Deposits</div>
+                    </div>
+
+                    <div class="stat-card fade-in" style="animation-delay: 0.3s">
+                        <div class="stat-header">
+                            <div class="stat-icon danger">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <div class="stat-trend down">
+                                <i class="fas fa-arrow-down"></i>
+                                <span id="withdrawalGrowth">0%</span>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="totalWithdrawals">$0.00</div>
+                        <div class="stat-label">Total Withdrawals</div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                    <div class="card" style="padding: 1rem; text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--warning-color);" id="pendingDepositsCount">0</div>
+                        <div style="color: var(--text-secondary); font-size: 0.875rem;">Pending Deposits</div>
+                    </div>
+                    <div class="card" style="padding: 1rem; text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--danger-color);" id="pendingWithdrawalsCount">0</div>
+                        <div style="color: var(--text-secondary); font-size: 0.875rem;">Pending Withdrawals</div>
+                    </div>
+                    <div class="card" style="padding: 1rem; text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--success-color);" id="activeInvestmentsCount">0</div>
+                        <div style="color: var(--text-secondary); font-size: 0.875rem;">Active Investments</div>
+                    </div>
+                    <div class="card" style="padding: 1rem; text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color);" id="platformProfit">$0.00</div>
+                        <div style="color: var(--text-secondary); font-size: 0.875rem;">Platform Profit</div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="card fade-in" style="animation-delay: 0.4s">
+                    <div class="card-header">
+                        <h3 class="card-title">Recent Users</h3>
+                        <a href="users.html" class="btn btn-sm btn-outline">View All</a>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Email</th>
+                                    <th>Balance</th>
+                                    <th>Investments</th>
+                                    <th>Joined</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentUsers">
+                                <tr>
+                                    <td colspan="6" style="text-align: center; padding: 2rem;">
+                                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color);"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Pending Deposits -->
+                <div class="card fade-in" style="animation-delay: 0.5s">
+                    <div class="card-header">
+                        <h3 class="card-title">Pending Deposits</h3>
+                        <a href="deposits.html" class="btn btn-sm btn-outline">View All</a>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Amount</th>
+                                    <th>Method</th>
+                                    <th>Transaction Hash</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pendingDepositsTable">
+                                <tr>
+                                    <td colspan="6" style="text-align: center; padding: 2rem;">
+                                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color);"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Pending Withdrawals -->
+                <div class="card fade-in" style="animation-delay: 0.6s">
+                    <div class="card-header">
+                        <h3 class="card-title">Pending Withdrawals</h3>
+                        <a href="withdrawals.html" class="btn btn-sm btn-outline">View All</a>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Amount</th>
+                                    <th>Method</th>
+                                    <th>Address</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pendingWithdrawalsTable">
+                                <tr>
+                                    <td colspan="6" style="text-align: center; padding: 2rem;">
+                                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color);"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../../js/dashboard.js"></script>
+    <script>
+        // Check if user is admin
+        async function checkAdmin() {
+            try {
+                const profile = await apiRequest('/auth/profile');
+                if (profile.data.role !== 'admin') {
+                    showToast('Access denied. Admin only.', 'error');
+                    setTimeout(() => window.location.href = '../dashboard.html', 2000);
+                }
+            } catch (error) {
+                window.location.href = '../login.html';
+            }
+        }
+
+        checkAdmin();
+
+        // Load admin dashboard
+        async function loadAdminDashboard() {
+            try {
+                showLoading();
+                
+                // Load stats
+                const stats = await apiRequest('/admin/stats');
+                
+                // Update main stats
+                document.getElementById('totalUsers').textContent = stats.data.totalUsers || 0;
+                document.getElementById('totalInvestments').textContent = formatCurrency(stats.data.totalInvestments || 0);
+                document.getElementById('totalDeposits').textContent = formatCurrency(stats.data.totalDeposits || 0);
+                document.getElementById('totalWithdrawals').textContent = formatCurrency(stats.data.totalWithdrawals || 0);
+                
+                // Update quick stats
+                document.getElementById('pendingDepositsCount').textContent = stats.data.pendingDeposits || 0;
+                document.getElementById('pendingWithdrawalsCount').textContent = stats.data.pendingWithdrawals || 0;
+                document.getElementById('activeInvestmentsCount').textContent = stats.data.activeInvestments || 0;
+                
+                // Calculate platform profit (deposits - withdrawals)
+                const profit = (stats.data.totalDeposits || 0) - (stats.data.totalWithdrawals || 0);
+                document.getElementById('platformProfit').textContent = formatCurrency(profit);
+                
+                // Update sidebar badges
+                document.getElementById('pendingDeposits').textContent = stats.data.pendingDeposits || 0;
+                document.getElementById('pendingWithdrawals').textContent = stats.data.pendingWithdrawals || 0;
+                
+                // Load recent users
+                await loadRecentUsers();
+                
+                // Load pending deposits
+                await loadPendingDeposits();
+                
+                // Load pending withdrawals
+                await loadPendingWithdrawals();
+                
+                hideLoading();
+            } catch (error) {
+                hideLoading();
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Load recent users
+        async function loadRecentUsers() {
+            try {
+                const response = await apiRequest('/admin/users?limit=5&sort=-createdAt');
+                const users = response.data;
+                
+                const tbody = document.getElementById('recentUsers');
+                
+                if (users.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem;">No users yet</td></tr>';
+                    return;
+                }
+                
+                tbody.innerHTML = users.map(user => `
+                    <tr>
+                        <td>${user.fullName || user.username}</td>
+                        <td>${user.email}</td>
+                        <td>${formatCurrency(user.balance || 0)}</td>
+                        <td>${formatCurrency(user.investmentBalance || 0)}</td>
+                        <td>${formatDate(user.createdAt)}</td>
+                        <td><span class="status-badge active">Active</span></td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading users:', error);
+            }
+        }
+
+        // Load pending deposits
+        async function loadPendingDeposits() {
+            try {
+                const response = await apiRequest('/admin/deposits?status=pending&limit=5');
+                const deposits = response.data;
+                
+                const tbody = document.getElementById('pendingDepositsTable');
+                
+                if (deposits.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem;">No pending deposits</td></tr>';
+                    return;
+                }
+                
+                tbody.innerHTML = deposits.map(deposit => `
+                    <tr>
+                        <td>${deposit.user?.fullName || deposit.user?.username || 'Unknown'}</td>
+                        <td>${formatCurrency(deposit.amount)}</td>
+                        <td>${deposit.method}</td>
+                        <td style="font-family: monospace; font-size: 0.875rem;">
+                            ${deposit.transactionHash ? deposit.transactionHash.substring(0, 15) + '...' : 'N/A'}
+                        </td>
+                        <td>${formatDate(deposit.createdAt)}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" onclick="approveDeposit('${deposit._id}')">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline" onclick="rejectDeposit('${deposit._id}')">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading deposits:', error);
+            }
+        }
+
+        // Load pending withdrawals
+        async function loadPendingWithdrawals() {
+            try {
+                const response = await apiRequest('/admin/withdrawals?status=pending&limit=5');
+                const withdrawals = response.data;
+                
+                const tbody = document.getElementById('pendingWithdrawalsTable');
+                
+                if (withdrawals.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem;">No pending withdrawals</td></tr>';
+                    return;
+                }
+                
+                tbody.innerHTML = withdrawals.map(withdrawal => `
+                    <tr>
+                        <td>${withdrawal.user?.fullName || withdrawal.user?.username || 'Unknown'}</td>
+                        <td>${formatCurrency(withdrawal.amount)}</td>
+                        <td>${withdrawal.method}</td>
+                        <td style="font-family: monospace; font-size: 0.875rem;">
+                            ${withdrawal.walletAddress ? withdrawal.walletAddress.substring(0, 15) + '...' : 
+                              withdrawal.bankAccount || 'N/A'}
+                        </td>
+                        <td>${formatDate(withdrawal.createdAt)}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" onclick="approveWithdrawal('${withdrawal._id}')">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline" onclick="rejectWithdrawal('${withdrawal._id}')">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading withdrawals:', error);
+            }
+        }
+
+        // Approve deposit
+        async function approveDeposit(id) {
+            if (!await confirmDialog('Approve this deposit?')) return;
+            
+            try {
+                showLoading();
+                await apiRequest(`/deposits/${id}/approve`, { method: 'PUT' });
+                hideLoading();
+                showToast('Deposit approved successfully', 'success');
+                loadAdminDashboard();
+            } catch (error) {
+                hideLoading();
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Reject deposit
+        async function rejectDeposit(id) {
+            if (!await confirmDialog('Reject this deposit?')) return;
+            
+            try {
+                showLoading();
+                await apiRequest(`/deposits/${id}/reject`, { method: 'PUT' });
+                hideLoading();
+                showToast('Deposit rejected', 'success');
+                loadAdminDashboard();
+            } catch (error) {
+                hideLoading();
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Approve withdrawal
+        async function approveWithdrawal(id) {
+            if (!await confirmDialog('Approve this withdrawal?')) return;
+            
+            try {
+                showLoading();
+                await apiRequest(`/withdrawals/${id}/approve`, { method: 'PUT' });
+                hideLoading();
+                showToast('Withdrawal approved successfully', 'success');
+                loadAdminDashboard();
+            } catch (error) {
+                hideLoading();
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Reject withdrawal
+        async function rejectWithdrawal(id) {
+            if (!await confirmDialog('Reject this withdrawal?')) return;
+            
+            try {
+                showLoading();
+                await apiRequest(`/withdrawals/${id}/reject`, { method: 'PUT' });
+                hideLoading();
+                showToast('Withdrawal rejected', 'success');
+                loadAdminDashboard();
+            } catch (error) {
+                hideLoading();
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Load dashboard
+        loadAdminDashboard();
+        
+        // Auto-refresh every 30 seconds
+        setInterval(loadAdminDashboard, 30000);
+    </script>
+</body>
+</html>
