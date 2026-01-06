@@ -18,9 +18,40 @@ Advanced 3D investment platform with multi-level referral system, automated prof
 
 - **Frontend**: HTML5, CSS3, JavaScript, Three.js (3D), GSAP (animations)
 - **Backend**: Node.js, Express.js
-- **Database**: MongoDB
+- **Database**: MongoDB (or any free alternative - see below)
 - **Authentication**: JWT, bcrypt
 - **Payment**: Integration ready for payment gateways
+
+## Database Options
+
+### 🎯 Recommended: MongoDB Atlas (Free - No Code Changes)
+
+**Why MongoDB Atlas?**
+- ✅ **Zero code changes** - Just update connection string
+- ✅ **512MB free forever**
+- ✅ **5 minutes setup**
+- ✅ **Automatic backups**
+
+**Quick Setup:**
+1. Sign up: https://www.mongodb.com/cloud/atlas/register
+2. Create M0 (Free) cluster
+3. Get connection string
+4. Update `.env`:
+```env
+MONGODB_URI=mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/greenmax
+```
+
+### 🔄 Other Free Alternatives
+
+| Database | Free Storage | Setup Time | Code Changes |
+|----------|-------------|------------|--------------|
+| **MongoDB Atlas** | 512MB | 5 min | ❌ None |
+| **Supabase** (PostgreSQL) | 500MB | 2-3 hours | ✅ Medium |
+| **PlanetScale** (MySQL) | 5GB | 1-2 hours | ✅ Medium |
+| **CockroachDB** | 5GB | 1-2 hours | ✅ Medium |
+| **Neon** (PostgreSQL) | 3GB | 1-2 hours | ✅ Medium |
+
+📚 **See [DATABASE_ALTERNATIVES.md](DATABASE_ALTERNATIVES.md) for complete guide**
 
 ## Investment Plans
 
@@ -47,54 +78,66 @@ Advanced 3D investment platform with multi-level referral system, automated prof
 
 ### Prerequisites
 - Node.js (v16+)
-- MongoDB (v5+)
+- MongoDB Atlas account (free) OR local MongoDB
 - npm or yarn
 
 ### Installation
 
-1. Clone repository:
+1. **Clone repository:**
 ```bash
 git clone https://github.com/ahmad-coder45/green-max-investment-platform.git
 cd green-max-investment-platform
 ```
 
-2. Install backend dependencies:
+2. **Install backend dependencies:**
 ```bash
 cd backend
 npm install
 ```
 
-3. Configure environment:
+3. **Configure environment:**
 ```bash
 cp .env.example .env
 # Edit .env with your configuration
 ```
 
-4. Start MongoDB:
-```bash
-mongod
+**For MongoDB Atlas (Recommended):**
+```env
+PORT=5000
+MONGODB_URI=mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/greenmax
+JWT_SECRET=your_jwt_secret_key_here
+JWT_EXPIRE=7d
+NODE_ENV=development
+FRONTEND_URL=http://localhost:3000
 ```
 
-5. Run backend:
-```bash
-npm start
-```
-
-6. Open frontend:
-```bash
-cd ../frontend
-# Open index.html in browser or use live server
-```
-
-## Environment Variables
-
+**For Local MongoDB:**
 ```env
 PORT=5000
 MONGODB_URI=mongodb://localhost:27017/greenmax
 JWT_SECRET=your_jwt_secret_key_here
 JWT_EXPIRE=7d
 NODE_ENV=development
+FRONTEND_URL=http://localhost:3000
 ```
+
+4. **Start backend:**
+```bash
+npm start
+# or for development with auto-reload
+npm run dev
+```
+
+5. **Open frontend:**
+```bash
+cd ../frontend
+# Open index.html in browser or use live server
+# Or use: python -m http.server 3000
+```
+
+6. **Access application:**
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:5000/api
 
 ## Project Structure
 
@@ -114,7 +157,11 @@ green-max-investment-platform/
 │   ├── js/
 │   ├── pages/
 │   └── index.html
-└── README.md
+├── README.md
+├── DEPLOYMENT.md
+├── API_DOCUMENTATION.md
+├── DATABASE_ALTERNATIVES.md
+└── SUPABASE_INTEGRATION.md
 ```
 
 ## API Endpoints
@@ -143,22 +190,40 @@ green-max-investment-platform/
 - GET `/api/admin/deposits` - Get all deposits
 - PUT `/api/admin/withdrawal/:id/approve` - Approve withdrawal
 
+📚 **See [API_DOCUMENTATION.md](API_DOCUMENTATION.md) for complete API reference**
+
 ## Deployment
 
-### Production Setup
+### Quick Deploy Options
 
-1. Set environment to production:
-```env
-NODE_ENV=production
-```
+**Backend:**
+- Heroku (Free tier)
+- Railway (Free tier)
+- Render (Free tier)
+- DigitalOcean ($5/month)
 
-2. Use production MongoDB:
-```env
-MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/greenmax
-```
+**Frontend:**
+- Netlify (Free)
+- Vercel (Free)
+- GitHub Pages (Free)
+- Cloudflare Pages (Free)
 
-3. Deploy backend (Heroku/Railway/DigitalOcean)
-4. Deploy frontend (Netlify/Vercel/GitHub Pages)
+**Database:**
+- MongoDB Atlas (Free 512MB)
+- Supabase (Free 500MB)
+- PlanetScale (Free 5GB)
+
+📚 **See [DEPLOYMENT.md](DEPLOYMENT.md) for complete deployment guide**
+
+## Documentation
+
+- 📖 [README.md](README.md) - Main documentation (this file)
+- 🚀 [DEPLOYMENT.md](DEPLOYMENT.md) - Complete deployment guide
+- 📡 [API_DOCUMENTATION.md](API_DOCUMENTATION.md) - Full API reference
+- 🗄️ [DATABASE_ALTERNATIVES.md](DATABASE_ALTERNATIVES.md) - Free database options
+- 🐘 [SUPABASE_INTEGRATION.md](SUPABASE_INTEGRATION.md) - PostgreSQL integration
+- ✨ [FEATURES.md](FEATURES.md) - Detailed features list
+- 📋 [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md) - Project overview
 
 ## Security Features
 
@@ -177,6 +242,34 @@ MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/greenmax
 - Withdrawal eligibility checks
 - Referral commission processing
 
+## Environment Variables
+
+```env
+# Server Configuration
+PORT=5000
+NODE_ENV=development
+
+# Database (Choose one)
+# MongoDB Atlas (Recommended)
+MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/greenmax
+
+# OR Local MongoDB
+MONGODB_URI=mongodb://localhost:27017/greenmax
+
+# JWT Configuration
+JWT_SECRET=your_super_secret_jwt_key_change_this_in_production
+JWT_EXPIRE=7d
+
+# Frontend URL
+FRONTEND_URL=http://localhost:3000
+
+# Email Configuration (Optional)
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASS=your_email_password
+```
+
 ## Support
 
 For issues and questions:
@@ -190,3 +283,18 @@ MIT License - See LICENSE file for details
 ## Disclaimer
 
 This platform is for educational purposes. Ensure compliance with local financial regulations before deployment.
+
+---
+
+## 🎉 Quick Links
+
+- 🌐 **Live Demo:** Coming soon
+- 📚 **Documentation:** [Full Docs](https://github.com/ahmad-coder45/green-max-investment-platform)
+- 🐛 **Report Bug:** [GitHub Issues](https://github.com/ahmad-coder45/green-max-investment-platform/issues)
+- 💡 **Request Feature:** [GitHub Issues](https://github.com/ahmad-coder45/green-max-investment-platform/issues)
+
+---
+
+**Built with ❤️ by Ahmad Ameen**
+
+**⭐ Star this repo if you find it helpful!**
