@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Monitoring - GREEN MAX Admin</title>
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-leaf"></i>
+                    <span>GREEN MAX</span>
+                    <span style="font-size: 0.7rem; color: var(--warning-color); margin-left: 0.5rem;">ADMIN</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="menu-section-title">Admin</div>
+                    <a href="dashboard.html" class="menu-item">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="users.html" class="menu-item">
+                        <i class="fas fa-users"></i>
+                        <span>User Management</span>
+                    </a>
+                    <a href="deposits.html" class="menu-item">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>Deposit Approvals</span>
+                    </a>
+                    <a href="withdrawals.html" class="menu-item">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>Withdrawal Approvals</span>
+                    </a>
+                    <a href="investments.html" class="menu-item active">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Investment Monitoring</span>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">User Panel</div>
+                    <a href="../dashboard.html" class="menu-item">
+                        <i class="fas fa-home"></i>
+                        <span>User Dashboard</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <button class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInvestments" placeholder="Search investments...">
+                </div>
+                
+                <div class="top-bar-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">0</span>
+                    </button>
+                    
+                    <button class="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    
+                    <div class="user-profile">
+                        <div class="user-avatar">A</div>
+                        <div class="user-info">
+                            <h4>Admin</h4>
+                            <p>Administrator</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <div class="page-header">
+                    <h1>Investment Monitoring</h1>
+                    <p>Monitor all user investments and their performance</p>
+                </div>
+
+                <!-- Investment Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card fade-in">
+                        <div class="stat-header">
+                            <div class="stat-icon primary">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="totalInvestments">0</div>
+                        <div class="stat-label">Total Investments</div>
+                    </div>
+
+                    <div class="stat-card fade-in" style="animation-delay: 0.1s">
+                        <div class="stat-header">
+                            <div class="stat-icon secondary">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="totalInvested">$0</div>
+                        <div class="stat-label">Total Invested</div>
+                    </div>
+
+                    <div class="stat-card fade-in" style="animation-delay: 0.2s">
+                        <div class="stat-header">
+                            <div class="stat-icon warning">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="activeInvestments">0</div>
+                        <div class="stat-label">Active Investments</div>
+                    </div>
+
+                    <div class="stat-card fade-in" style="animation-delay: 0.3s">
+                        <div class="stat-header">
+                            <div class="stat-icon danger">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="totalProfits">$0</div>
+                        <div class="stat-label">Total Profits Paid</div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="card fade-in" style="animation-delay: 0.4s">
+                    <div class="card-body">
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                            <div style="flex: 1; min-width: 200px;">
+                                <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">Status</label>
+                                <select id="filterStatus" class="form-select" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg);">
+                                    <option value="all">All Status</option>
+                                    <option value="active">Active</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                            </div>
+                            
+                            <div style="flex: 1; min-width: 200px;">
+                                <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">Plan</label>
+                                <select id="filterPlan" class="form-select" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg);">
+                                    <option value="all">All Plans</option>
+                                    <option value="Plan 01">Plan 01 ($5)</option>
+                                    <option value="Plan 02">Plan 02 ($12)</option>
+                                    <option value="Plan 03">Plan 03 ($30)</option>
+                                    <option value="Plan 04">Plan 04 ($50)</option>
+                                    <option value="Plan 05">Plan 05 ($120)</option>
+                                    <option value="Plan 06">Plan 06 ($250)</option>
+                                    <option value="Plan 07">Plan 07 ($550)</option>
+                                </select>
+                            </div>
+                            
+                            <div style="flex: 1; min-width: 200px;">
+                                <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">Sort By</label>
+                                <select id="sortBy" class="form-select" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg);">
+                                    <option value="newest">Newest First</option>
+                                    <option value="oldest">Oldest First</option>
+                                    <option value="amount-high">Highest Amount</option>
+                                    <option value="amount-low">Lowest Amount</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Investments Table -->
+                <div class="card fade-in" style="animation-delay: 0.5s">
+                    <div class="card-header">
+                        <h3 class="card-title">All Investments</h3>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-primary btn-sm" onclick="refreshInvestments()">
+                                <i class="fas fa-sync"></i> Refresh
+                            </button>
+                            <button class="btn btn-outline btn-sm" onclick="exportInvestments()">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Plan</th>
+                                    <th>Amount</th>
+                                    <th>Daily Profit</th>
+                                    <th>Total Earned</th>
+                                    <th>Progress</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="investmentsTable">
+                                <tr>
+                                    <td colspan="8" style="text-align: center; padding: 3rem;">
+                                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color);"></i>
+                                        <p style="margin-top: 1rem; color: var(--text-secondary);">Loading investments...</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Investment Details Modal -->
+    <div id="investmentModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h3>Investment Details</h3>
+                <button class="modal-close" onclick="closeInvestmentModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="investmentModalBody">
+                <!-- Investment details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 16px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: width 0.3s ease;
+        }
+    </style>
+
+    <script src="../../js/dashboard.js"></script>
+    <script>
+        let allInvestments = [];
+
+        // Load investments
+        async function loadInvestments() {
+            try {
+                showLoading();
+                
+                const response = await apiRequest('/admin/investments');
+                allInvestments = response.data;
+                
+                // Calculate stats
+                const totalInvestments = allInvestments.length;
+                const totalInvested = allInvestments.reduce((sum, inv) => sum + inv.amount, 0);
+                const activeInvestments = allInvestments.filter(inv => inv.status === 'active').length;
+                const totalProfits = allInvestments.reduce((sum, inv) => sum + (inv.totalEarned || 0), 0);
+                
+                document.getElementById('totalInvestments').textContent = totalInvestments;
+                document.getElementById('totalInvested').textContent = formatCurrency(totalInvested);
+                document.getElementById('activeInvestments').textContent = activeInvestments;
+                document.getElementById('totalProfits').textContent = formatCurrency(totalProfits);
+                
+                renderInvestmentsTable(allInvestments);
+                hideLoading();
+            } catch (error) {
+                hideLoading();
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Render investments table
+        function renderInvestmentsTable(investments) {
+            const tbody = document.getElementById('investmentsTable');
+            
+            if (investments.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 3rem;">
+                            <i class="fas fa-inbox" style="font-size: 2rem; color: var(--text-secondary);"></i>
+                            <p style="margin-top: 1rem; color: var(--text-secondary);">No investments found</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = investments.map(investment => {
+                const progress = ((investment.daysCompleted || 0) / investment.plan.duration) * 100;
+                
+                return `
+                    <tr>
+                        <td>
+                            <div>
+                                <strong>${investment.user?.fullName || investment.user?.username || 'Unknown'}</strong>
+                                <br>
+                                <small style="color: var(--text-secondary);">${investment.user?.email || ''}</small>
+                            </div>
+                        </td>
+                        <td>
+                            <strong>${investment.plan?.name || 'Unknown'}</strong>
+                            <br>
+                            <small style="color: var(--text-secondary);">${investment.plan?.duration || 0} days</small>
+                        </td>
+                        <td><strong style="color: var(--primary-color);">${formatCurrency(investment.amount)}</strong></td>
+                        <td><strong style="color: var(--success-color);">${formatCurrency(investment.plan?.dailyProfit || 0)}</strong></td>
+                        <td><strong style="color: var(--warning-color);">${formatCurrency(investment.totalEarned || 0)}</strong></td>
+                        <td>
+                            <div style="min-width: 100px;">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${progress}%"></div>
+                                </div>
+                                <small style="color: var(--text-secondary); font-size: 0.75rem;">
+                                    ${investment.daysCompleted || 0}/${investment.plan?.duration || 0} days
+                                </small>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="status-badge ${investment.status === 'active' ? 'active' : 'inactive'}">
+                                ${investment.status}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline" onclick="viewInvestment('${investment._id}')" title="View Details">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // View investment details
+        async function viewInvestment(investmentId) {
+            try {
+                showLoading();
+                const investment = allInvestments.find(inv => inv._id === investmentId);
+                
+                if (!investment) {
+                    throw new Error('Investment not found');
+                }
+                
+                const progress = ((investment.daysCompleted || 0) / investment.plan.duration) * 100;
+                const remainingDays = investment.plan.duration - (investment.daysCompleted || 0);
+                const expectedTotal = investment.plan.dailyProfit * investment.plan.duration;
+                
+                document.getElementById('investmentModalBody').innerHTML = `
+                    <div style="display: grid; gap: 1.5rem;">
+                        <div style="padding: 1rem; background: var(--bg-secondary); border-radius: 8px;">
+                            <h4 style="margin: 0 0 1rem 0;">User Information</h4>
+                            <div style="display: grid; gap: 0.5rem;">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-secondary);">Name:</span>
+                                    <strong>${investment.user?.fullName || investment.user?.username || 'Unknown'}</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-secondary);">Email:</span>
+                                    <strong>${investment.user?.email || 'N/A'}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="padding: 1rem; background: var(--bg-secondary); border-radius: 8px;">
+                            <h4 style="margin: 0 0 1rem 0;">Investment Details</h4>
+                            <div style="display: grid; gap: 0.5rem;">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-secondary);">Plan:</span>
+                                    <strong>${investment.plan?.name || 'Unknown'}</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-secondary);">Amount Invested:</span>
+                                    <strong style="color: var(--primary-color);">${formatCurrency(investment.amount)}</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-secondary);">Daily Profit:</span>
+                                    <strong style="color: var(--success-color);">${formatCurrency(investment.plan?.dailyProfit || 0)}</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-secondary);">Total Earned:</span>
+                                    <strong style="color: var(--warning-color);">${formatCurrency(investment.totalEarned || 0)}</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-secondary);">Expected Total:</span>
+                                    <strong>${formatCurrency(expectedTotal)}</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-secondary);">Duration:</span>
+                                    <strong>${investment.plan?.duration || 0} days</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-secondary);">Days Completed:</span>
+                                    <strong>${investment.daysCompleted || 0} days</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-secondary);">Remaining Days:</span>
+                                    <strong>${remainingDays} days</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-secondary);">Progress:</span>
+                                    <strong>${progress.toFixed(1)}%</strong>
+                                </div>
+                                <div style="margin-top: 0.5rem;">
+                                    <div class="progress-bar" style="height: 12px;">
+                                        <div class="progress-fill" style="width: ${progress}%"></div>
+                                    </div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                                    <span style="color: var(--text-secondary);">Start Date:</span>
+                                    <strong>${formatDate(investment.createdAt)}</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-secondary);">Status:</span>
+                                    <span class="status-badge ${investment.status === 'active' ? 'active' : 'inactive'}">
+                                        ${investment.status}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('investmentModal').style.display = 'flex';
+                hideLoading();
+            } catch (error) {
+                hideLoading();
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Close modal
+        function closeInvestmentModal() {
+            document.getElementById('investmentModal').style.display = 'none';
+        }
+
+        // Filter investments
+        function filterInvestments() {
+            const status = document.getElementById('filterStatus').value;
+            const plan = document.getElementById('filterPlan').value;
+            const sortBy = document.getElementById('sortBy').value;
+            const searchTerm = document.getElementById('searchInvestments').value.toLowerCase();
+            
+            let filtered = [...allInvestments];
+            
+            // Filter by status
+            if (status !== 'all') {
+                filtered = filtered.filter(inv => inv.status === status);
+            }
+            
+            // Filter by plan
+            if (plan !== 'all') {
+                filtered = filtered.filter(inv => inv.plan?.name === plan);
+            }
+            
+            // Search
+            if (searchTerm) {
+                filtered = filtered.filter(inv => 
+                    inv.user?.username?.toLowerCase().includes(searchTerm) ||
+                    inv.user?.email?.toLowerCase().includes(searchTerm) ||
+                    inv.plan?.name?.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // Sort
+            switch(sortBy) {
+                case 'newest':
+                    filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    break;
+                case 'oldest':
+                    filtered.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+                    break;
+                case 'amount-high':
+                    filtered.sort((a, b) => b.amount - a.amount);
+                    break;
+                case 'amount-low':
+                    filtered.sort((a, b) => a.amount - b.amount);
+                    break;
+            }
+            
+            renderInvestmentsTable(filtered);
+        }
+
+        // Refresh investments
+        function refreshInvestments() {
+            loadInvestments();
+            showToast('Investments refreshed', 'success');
+        }
+
+        // Export investments
+        function exportInvestments() {
+            showToast('Export feature coming soon!', 'info');
+        }
+
+        // Event listeners
+        document.getElementById('filterStatus').addEventListener('change', filterInvestments);
+        document.getElementById('filterPlan').addEventListener('change', filterInvestments);
+        document.getElementById('sortBy').addEventListener('change', filterInvestments);
+        document.getElementById('searchInvestments').addEventListener('input', filterInvestments);
+
+        // Load data
+        loadInvestments();
+        
+        // Auto-refresh every 60 seconds
+        setInterval(loadInvestments, 60000);
+    </script>
+</body>
+</html>
