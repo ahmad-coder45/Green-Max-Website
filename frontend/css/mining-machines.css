@@ -1,0 +1,153 @@
+/* Mining Machine Styles */
+.plan-icon {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mining-machine {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    animation: mining-pulse 2s ease-in-out infinite;
+}
+
+/* Mining Machine SVG Container */
+.mining-machine svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 4px 8px rgba(0, 255, 136, 0.3));
+}
+
+/* Mining Animation */
+@keyframes mining-pulse {
+    0%, 100% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+    50% {
+        transform: scale(1.05);
+        filter: brightness(1.2);
+    }
+}
+
+/* Mining Particles Effect */
+.mining-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    animation: particle-float 3s ease-in-out infinite;
+}
+
+@keyframes particle-float {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-50px) scale(0);
+        opacity: 0;
+    }
+}
+
+/* Different Mining Machine Styles */
+.mining-machine.starter {
+    --machine-color: #00ff88;
+}
+
+.mining-machine.basic {
+    --machine-color: #00d4ff;
+}
+
+.mining-machine.standard {
+    --machine-color: #667eea;
+}
+
+.mining-machine.premium {
+    --machine-color: #ffa502;
+}
+
+.mining-machine.gold {
+    --machine-color: #ffd700;
+}
+
+.mining-machine.platinum {
+    --machine-color: #e5e4e2;
+}
+
+.mining-machine.diamond {
+    --machine-color: #b9f2ff;
+}
+
+/* Mining Status Indicator */
+.mining-status {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 20px;
+    height: 20px;
+    background: var(--success);
+    border-radius: 50%;
+    animation: status-blink 1.5s ease-in-out infinite;
+    box-shadow: 0 0 10px var(--success);
+}
+
+@keyframes status-blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+}
+
+/* Hashrate Display */
+.hashrate {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    color: var(--primary-color);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Mining Rig Glow Effect */
+.plan-card:hover .mining-machine {
+    animation: mining-pulse 1s ease-in-out infinite, mining-glow 2s ease-in-out infinite;
+}
+
+@keyframes mining-glow {
+    0%, 100% {
+        filter: drop-shadow(0 0 10px var(--primary-color));
+    }
+    50% {
+        filter: drop-shadow(0 0 20px var(--primary-color));
+    }
+}
+
+/* 3D Mining Machine Effect */
+.mining-machine-3d {
+    transform-style: preserve-3d;
+    transition: transform 0.3s;
+}
+
+.plan-card:hover .mining-machine-3d {
+    transform: rotateY(10deg) rotateX(5deg);
+}
