@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions - GREEN MAX</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-leaf"></i>
+                    <span>GREEN MAX</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="menu-section-title">Main</div>
+                    <a href="dashboard.html" class="menu-item">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="investments.html" class="menu-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Investments</span>
+                    </a>
+                    <a href="deposit.html" class="menu-item">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>Deposit</span>
+                    </a>
+                    <a href="withdraw.html" class="menu-item">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>Withdraw</span>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">Referral</div>
+                    <a href="referrals.html" class="menu-item">
+                        <i class="fas fa-users"></i>
+                        <span>My Referrals</span>
+                    </a>
+                    <a href="commissions.html" class="menu-item">
+                        <i class="fas fa-dollar-sign"></i>
+                        <span>Commissions</span>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">Account</div>
+                    <a href="transactions.html" class="menu-item active">
+                        <i class="fas fa-history"></i>
+                        <span>Transactions</span>
+                    </a>
+                    <a href="profile.html" class="menu-item">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                    <a href="settings.html" class="menu-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <button class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search transactions...">
+                </div>
+                
+                <div class="top-bar-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <button class="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    
+                    <div class="user-profile">
+                        <div class="user-avatar">U</div>
+                        <div class="user-info">
+                            <h4 id="userName">User</h4>
+                            <p>Member</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <div class="page-header">
+                    <h1>Transaction History</h1>
+                    <p>View all your account transactions and activities</p>
+                </div>
+
+                <!-- Transaction Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card fade-in">
+                        <div class="stat-header">
+                            <div class="stat-icon primary">
+                                <i class="fas fa-arrow-down"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="totalDeposits">$0.00</div>
+                        <div class="stat-label">Total Deposits</div>
+                    </div>
+
+                    <div class="stat-card fade-in" style="animation-delay: 0.1s">
+                        <div class="stat-header">
+                            <div class="stat-icon danger">
+                                <i class="fas fa-arrow-up"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="totalWithdrawals">$0.00</div>
+                        <div class="stat-label">Total Withdrawals</div>
+                    </div>
+
+                    <div class="stat-card fade-in" style="animation-delay: 0.2s">
+                        <div class="stat-header">
+                            <div class="stat-icon secondary">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="totalInvestments">$0.00</div>
+                        <div class="stat-label">Total Investments</div>
+                    </div>
+
+                    <div class="stat-card fade-in" style="animation-delay: 0.3s">
+                        <div class="stat-header">
+                            <div class="stat-icon warning">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="totalCommissions">$0.00</div>
+                        <div class="stat-label">Total Commissions</div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="card fade-in" style="animation-delay: 0.4s">
+                    <div class="card-body">
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                            <div style="flex: 1; min-width: 200px;">
+                                <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">Transaction Type</label>
+                                <select id="filterType" class="form-select" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg);">
+                                    <option value="all">All Transactions</option>
+                                    <option value="deposit">Deposits</option>
+                                    <option value="withdrawal">Withdrawals</option>
+                                    <option value="investment">Investments</option>
+                                    <option value="commission">Commissions</option>
+                                    <option value="profit">Profits</option>
+                                </select>
+                            </div>
+                            
+                            <div style="flex: 1; min-width: 200px;">
+                                <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">Status</label>
+                                <select id="filterStatus" class="form-select" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg);">
+                                    <option value="all">All Status</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="active">Active</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </div>
+                            
+                            <div style="flex: 1; min-width: 200px;">
+                                <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">Date Range</label>
+                                <select id="filterDate" class="form-select" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg);">
+                                    <option value="all">All Time</option>
+                                    <option value="today">Today</option>
+                                    <option value="week">This Week</option>
+                                    <option value="month">This Month</option>
+                                    <option value="year">This Year</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transactions Table -->
+                <div class="card fade-in" style="animation-delay: 0.5s">
+                    <div class="card-header">
+                        <h3 class="card-title">All Transactions</h3>
+                        <button class="btn btn-outline btn-sm" onclick="exportTransactions()">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionsTable">
+                                <tr>
+                                    <td colspan="6" style="text-align: center; padding: 3rem;">
+                                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color);"></i>
+                                        <p style="margin-top: 1rem; color: var(--text-secondary);">Loading transactions...</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/dashboard.js"></script>
+    <script>
+        let allTransactions = [];
+
+        // Load all transactions
+        async function loadTransactions() {
+            try {
+                showLoading();
+                
+                // Load all transaction types
+                const [deposits, withdrawals, investments, commissions] = await Promise.all([
+                    apiRequest('/deposits/user'),
+                    apiRequest('/withdrawals/user'),
+                    apiRequest('/investments/user'),
+                    apiRequest('/referrals/commissions')
+                ]);
+                
+                // Combine all transactions
+                allTransactions = [
+                    ...deposits.data.map(d => ({
+                        date: d.createdAt,
+                        type: 'deposit',
+                        description: `Deposit via ${d.method}`,
+                        amount: d.amount,
+                        status: d.status,
+                        data: d
+                    })),
+                    ...withdrawals.data.map(w => ({
+                        date: w.createdAt,
+                        type: 'withdrawal',
+                        description: `Withdrawal via ${w.method}`,
+                        amount: -w.amount,
+                        status: w.status,
+                        data: w
+                    })),
+                    ...investments.data.map(i => ({
+                        date: i.createdAt,
+                        type: 'investment',
+                        description: `Investment in ${i.plan?.name || 'Plan'}`,
+                        amount: -i.amount,
+                        status: i.status,
+                        data: i
+                    })),
+                    ...commissions.data.map(c => ({
+                        date: c.createdAt,
+                        type: 'commission',
+                        description: `Level ${c.level} commission from ${c.fromUser?.username || 'referral'}`,
+                        amount: c.amount,
+                        status: 'completed',
+                        data: c
+                    }))
+                ];
+                
+                // Sort by date (newest first)
+                allTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                // Calculate totals
+                const totalDeposits = deposits.data.filter(d => d.status === 'approved').reduce((sum, d) => sum + d.amount, 0);
+                const totalWithdrawals = withdrawals.data.filter(w => w.status === 'approved').reduce((sum, w) => sum + w.amount, 0);
+                const totalInvestments = investments.data.reduce((sum, i) => sum + i.amount, 0);
+                const totalCommissions = commissions.data.reduce((sum, c) => sum + c.amount, 0);
+                
+                document.getElementById('totalDeposits').textContent = formatCurrency(totalDeposits);
+                document.getElementById('totalWithdrawals').textContent = formatCurrency(totalWithdrawals);
+                document.getElementById('totalInvestments').textContent = formatCurrency(totalInvestments);
+                document.getElementById('totalCommissions').textContent = formatCurrency(totalCommissions);
+                
+                // Render table
+                renderTransactionsTable(allTransactions);
+                
+                hideLoading();
+            } catch (error) {
+                hideLoading();
+                showToast(error.message, 'error');
+                document.getElementById('transactionsTable').innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 3rem;">
+                            <i class="fas fa-exclamation-circle" style="font-size: 2rem; color: var(--danger-color);"></i>
+                            <p style="margin-top: 1rem; color: var(--text-secondary);">Failed to load transactions</p>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Render transactions table
+        function renderTransactionsTable(transactions) {
+            const tbody = document.getElementById('transactionsTable');
+            
+            if (transactions.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 3rem;">
+                            <i class="fas fa-inbox" style="font-size: 2rem; color: var(--text-secondary);"></i>
+                            <p style="margin-top: 1rem; color: var(--text-secondary);">No transactions found</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = transactions.map(tx => {
+                const typeIcons = {
+                    deposit: 'fa-arrow-down',
+                    withdrawal: 'fa-arrow-up',
+                    investment: 'fa-chart-line',
+                    commission: 'fa-dollar-sign',
+                    profit: 'fa-coins'
+                };
+                
+                const typeColors = {
+                    deposit: 'primary',
+                    withdrawal: 'danger',
+                    investment: 'secondary',
+                    commission: 'warning',
+                    profit: 'success'
+                };
+                
+                const statusBadges = {
+                    pending: 'warning',
+                    approved: 'active',
+                    completed: 'active',
+                    active: 'active',
+                    rejected: 'inactive',
+                    cancelled: 'inactive'
+                };
+                
+                return `
+                    <tr>
+                        <td>${formatDate(tx.date)}</td>
+                        <td>
+                            <span class="status-badge ${typeColors[tx.type]}">
+                                <i class="fas ${typeIcons[tx.type]}"></i> ${tx.type.charAt(0).toUpperCase() + tx.type.slice(1)}
+                            </span>
+                        </td>
+                        <td>${tx.description}</td>
+                        <td>
+                            <strong style="color: ${tx.amount >= 0 ? 'var(--success-color)' : 'var(--danger-color)'};">
+                                ${tx.amount >= 0 ? '+' : ''}${formatCurrency(tx.amount)}
+                            </strong>
+                        </td>
+                        <td><span class="status-badge ${statusBadges[tx.status]}">${tx.status}</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-outline" onclick="viewTransaction('${tx.type}', '${tx.data._id}')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Filter transactions
+        function filterTransactions() {
+            const type = document.getElementById('filterType').value;
+            const status = document.getElementById('filterStatus').value;
+            const dateRange = document.getElementById('filterDate').value;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            let filtered = allTransactions;
+            
+            // Filter by type
+            if (type !== 'all') {
+                filtered = filtered.filter(tx => tx.type === type);
+            }
+            
+            // Filter by status
+            if (status !== 'all') {
+                filtered = filtered.filter(tx => tx.status === status);
+            }
+            
+            // Filter by date range
+            if (dateRange !== 'all') {
+                const now = new Date();
+                const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                
+                filtered = filtered.filter(tx => {
+                    const txDate = new Date(tx.date);
+                    
+                    switch(dateRange) {
+                        case 'today':
+                            return txDate >= today;
+                        case 'week':
+                            const weekAgo = new Date(today);
+                            weekAgo.setDate(weekAgo.getDate() - 7);
+                            return txDate >= weekAgo;
+                        case 'month':
+                            const monthAgo = new Date(today);
+                            monthAgo.setMonth(monthAgo.getMonth() - 1);
+                            return txDate >= monthAgo;
+                        case 'year':
+                            const yearAgo = new Date(today);
+                            yearAgo.setFullYear(yearAgo.getFullYear() - 1);
+                            return txDate >= yearAgo;
+                        default:
+                            return true;
+                    }
+                });
+            }
+            
+            // Filter by search term
+            if (searchTerm) {
+                filtered = filtered.filter(tx => 
+                    tx.description.toLowerCase().includes(searchTerm) ||
+                    tx.type.toLowerCase().includes(searchTerm) ||
+                    tx.status.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            renderTransactionsTable(filtered);
+        }
+
+        // View transaction details
+        function viewTransaction(type, id) {
+            const pages = {
+                deposit: 'deposit.html',
+                withdrawal: 'withdraw.html',
+                investment: 'investments.html',
+                commission: 'commissions.html'
+            };
+            
+            window.location.href = pages[type] || 'dashboard.html';
+        }
+
+        // Export transactions
+        function exportTransactions() {
+            showToast('Export feature coming soon!', 'info');
+        }
+
+        // Event listeners
+        document.getElementById('filterType').addEventListener('change', filterTransactions);
+        document.getElementById('filterStatus').addEventListener('change', filterTransactions);
+        document.getElementById('filterDate').addEventListener('change', filterTransactions);
+        document.getElementById('searchInput').addEventListener('input', filterTransactions);
+
+        // Load data
+        loadTransactions();
+    </script>
+</body>
+</html>
