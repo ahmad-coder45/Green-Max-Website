@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdrawal Approvals - GREEN MAX Admin</title>
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-leaf"></i>
+                    <span>GREEN MAX</span>
+                    <span style="font-size: 0.7rem; color: var(--warning-color); margin-left: 0.5rem;">ADMIN</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="menu-section-title">Admin</div>
+                    <a href="dashboard.html" class="menu-item">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="users.html" class="menu-item">
+                        <i class="fas fa-users"></i>
+                        <span>User Management</span>
+                    </a>
+                    <a href="deposits.html" class="menu-item">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>Deposit Approvals</span>
+                    </a>
+                    <a href="withdrawals.html" class="menu-item active">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>Withdrawal Approvals</span>
+                    </a>
+                    <a href="investments.html" class="menu-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Investment Monitoring</span>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">User Panel</div>
+                    <a href="../dashboard.html" class="menu-item">
+                        <i class="fas fa-home"></i>
+                        <span>User Dashboard</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <button class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchWithdrawals" placeholder="Search withdrawals...">
+                </div>
+                
+                <div class="top-bar-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge" id="pendingCount">0</span>
+                    </button>
+                    
+                    <button class="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    
+                    <div class="user-profile">
+                        <div class="user-avatar">A</div>
+                        <div class="user-info">
+                            <h4>Admin</h4>
+                            <p>Administrator</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <div class="page-header">
+                    <h1>Withdrawal Approvals</h1>
+                    <p>Review and process user withdrawal requests</p>
+                </div>
+
+                <!-- Withdrawal Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card fade-in">
+                        <div class="stat-header">
+                            <div class="stat-icon warning">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="pendingWithdrawals">0</div>
+                        <div class="stat-label">Pending Withdrawals</div>
+                    </div>
+
+                    <div class="stat-card fade-in" style="animation-delay: 0.1s">
+                        <div class="stat-header">
+                            <div class="stat-icon primary">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="approvedToday">0</div>
+                        <div class="stat-label">Approved Today</div>
+                    </div>
+
+                    <div class="stat-card fade-in" style="animation-delay: 0.2s">
+                        <div class="stat-header">
+                            <div class="stat-icon secondary">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="totalPendingAmount">$0</div>
+                        <div class="stat-label">Pending Amount</div>
+                    </div>
+
+                    <div class="stat-card fade-in" style="animation-delay: 0.3s">
+                        <div class="stat-header">
+                            <div class="stat-icon danger">
+                                <i class="fas fa-times-circle"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="rejectedToday">0</div>
+                        <div class="stat-label">Rejected Today</div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="card fade-in" style="animation-delay: 0.4s">
+                    <div class="card-body">
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                            <div style="flex: 1; min-width: 200px;">
+                                <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">Status</label>
+                                <select id="filterStatus" class="form-select" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg);">
+                                    <option value="pending">Pending</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="rejected">Rejected</option>
+                                    <option value="all">All Status</option>
+                                </select>
+                            </div>
+                            
+                            <div style="flex: 1; min-width: 200px;">
+                                <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">Payment Method</label>
+                                <select id="filterMethod" class="form-select" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg);">
+                                    <option value="all">All Methods</option>
+                                    <option value="bitcoin">Bitcoin</option>
+                                    <option value="ethereum">Ethereum</option>
+                                    <option value="usdt">USDT</option>
+                                    <option value="bank">Bank Transfer</option>
+                                </select>
+                            </div>
+                            
+                            <div style="flex: 1; min-width: 200px;">
+                                <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">Sort By</label>
+                                <select id="sortBy" class="form-select" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg);">
+                                    <option value="newest">Newest First</option>
+                                    <option value="oldest">Oldest First</option>
+                                    <option value="amount-high">Highest Amount</option>
+                                    <option value="amount-low">Lowest Amount</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Withdrawals Table -->
+                <div class="card fade-in" style="animation-delay: 0.5s">
+                    <div class="card-header">
+                        <h3 class="card-title">Withdrawal Requests</h3>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-primary btn-sm" onclick="refreshWithdrawals()">
+                                <i class="fas fa-sync"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Amount</th>
+                                    <th>Method</th>
+                                    <th>Wallet Address</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="withdrawalsTable">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; padding: 3rem;">
+                                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color);"></i>
+                                        <p style="margin-top: 1rem; color: var(--text-secondary);">Loading withdrawals...</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Withdrawal Details Modal -->
+    <div id="withdrawalModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3>Withdrawal Details</h3>
+                <button class="modal-close" onclick="closeWithdrawalModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="withdrawalModalBody">
+                <!-- Withdrawal details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 16px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+    </style>
+
+    <script src="../../js/dashboard.js"></script>
+    <script>
+        let allWithdrawals = [];
+
+        // Load withdrawals
+        async function loadWithdrawals() {
+            try {
+                showLoading();
+                
+                const response = await apiRequest('/admin/withdrawals');
+                allWithdrawals = response.data;
+                
+                // Calculate stats
+                const pending = allWithdrawals.filter(w => w.status === 'pending');
+                const today = new Date().setHours(0, 0, 0, 0);
+                const approvedToday = allWithdrawals.filter(w => 
+                    w.status === 'approved' && 
+                    new Date(w.updatedAt).setHours(0, 0, 0, 0) === today
+                ).length;
+                const rejectedToday = allWithdrawals.filter(w => 
+                    w.status === 'rejected' && 
+                    new Date(w.updatedAt).setHours(0, 0, 0, 0) === today
+                ).length;
+                const totalPending = pending.reduce((sum, w) => sum + w.amount, 0);
+                
+                document.getElementById('pendingWithdrawals').textContent = pending.length;
+                document.getElementById('pendingCount').textContent = pending.length;
+                document.getElementById('approvedToday').textContent = approvedToday;
+                document.getElementById('rejectedToday').textContent = rejectedToday;
+                document.getElementById('totalPendingAmount').textContent = formatCurrency(totalPending);
+                
+                renderWithdrawalsTable(allWithdrawals);
+                hideLoading();
+            } catch (error) {
+                hideLoading();
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Render withdrawals table
+        function renderWithdrawalsTable(withdrawals) {
+            const tbody = document.getElementById('withdrawalsTable');
+            
+            if (withdrawals.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 3rem;">
+                            <i class="fas fa-inbox" style="font-size: 2rem; color: var(--text-secondary);"></i>
+                            <p style="margin-top: 1rem; color: var(--text-secondary);">No withdrawals found</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = withdrawals.map(withdrawal => {
+                const statusColors = {
+                    pending: 'warning',
+                    approved: 'active',
+                    rejected: 'inactive'
+                };
+                
+                return `
+                    <tr>
+                        <td>
+                            <div>
+                                <strong>${withdrawal.user?.fullName || withdrawal.user?.username || 'Unknown'}</strong>
+                                <br>
+                                <small style="color: var(--text-secondary);">${withdrawal.user?.email || ''}</small>
+                            </div>
+                        </td>
+                        <td><strong style="color: var(--danger-color);">${formatCurrency(withdrawal.amount)}</strong></td>
+                        <td>
+                            <span class="status-badge primary">
+                                <i class="fab fa-${withdrawal.method === 'bitcoin' ? 'bitcoin' : withdrawal.method === 'ethereum' ? 'ethereum' : 'dollar-sign'}"></i>
+                                ${withdrawal.method.charAt(0).toUpperCase() + withdrawal.method.slice(1)}
+                            </span>
+                        </td>
+                        <td>
+                            <code style="font-size: 0.75rem; background: var(--bg-secondary); padding: 0.25rem 0.5rem; border-radius: 4px;">
+                                ${withdrawal.walletAddress ? withdrawal.walletAddress.substring(0, 16) + '...' : 'N/A'}
+                            </code>
+                        </td>
+                        <td>${formatDateTime(withdrawal.createdAt)}</td>
+                        <td><span class="status-badge ${statusColors[withdrawal.status]}">${withdrawal.status}</span></td>
+                        <td>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-sm btn-outline" onclick="viewWithdrawal('${withdrawal._id}')" title="View Details">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                ${withdrawal.status === 'pending' ? `
+                                    <button class="btn btn-sm btn-primary" onclick="approveWithdrawal('${withdrawal._id}')" title="Approve">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" onclick="rejectWithdrawal('${withdrawal._id}')" title="Reject">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // View withdrawal details
+        async function viewWithdrawal(withdrawalId) {
+            try {
+                showLoading();
+                const withdrawal = allWithdrawals.find(w => w._id === withdrawalId);
+                
+                if (!withdrawal) {
+                    throw new Error('Withdrawal not found');
+                }
+                
+                const statusColors = {
+                    pending: 'warning',
+                    approved: 'active',
+                    rejected: 'inactive'
+                };
+                
+                document.getElementById('withdrawalModalBody').innerHTML = `
+                    <div style="display: grid; gap: 1.5rem;">
+                        <div style="padding: 1rem; background: var(--bg-secondary); border-radius: 8px;">
+                            <h4 style="margin: 0 0 1rem 0;">User Information</h4>
+                            <div style="display: grid; gap: 0.5rem;">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-secondary);">Name:</span>
+                                    <strong>${withdrawal.user?.fullName || withdrawal.user?.username || 'Unknown'}</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-secondary);">Email:</span>
+                                    <strong>${withdrawal.user?.email || 'N/A'}</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-secondary);">Balance:</span>
+                                    <strong style="color: var(--success-color);">${formatCurrency(withdrawal.user?.balance || 0)}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="padding: 1rem; background: var(--bg-secondary); border-radius: 8px;">
+                            <h4 style="margin: 0 0 1rem 0;">Withdrawal Information</h4>
+                            <div style="display: grid; gap: 0.5rem;">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-secondary);">Amount:</span>
+                                    <strong style="color: var(--danger-color); font-size: 1.25rem;">${formatCurrency(withdrawal.amount)}</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-secondary);">Method:</span>
+                                    <strong>${withdrawal.method.charAt(0).toUpperCase() + withdrawal.method.slice(1)}</strong>
+                                </div>
+                                <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                                    <span style="color: var(--text-secondary);">Wallet Address:</span>
+                                    <code style="font-size: 0.75rem; background: var(--card-bg); padding: 0.5rem; border-radius: 4px; word-break: break-all;">
+                                        ${withdrawal.walletAddress || 'N/A'}
+                                    </code>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-secondary);">Date:</span>
+                                    <strong>${formatDateTime(withdrawal.createdAt)}</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--text-secondary);">Status:</span>
+                                    <span class="status-badge ${statusColors[withdrawal.status]}">${withdrawal.status}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        ${withdrawal.status === 'pending' ? `
+                            <div style="display: flex; gap: 1rem;">
+                                <button class="btn btn-primary" style="flex: 1;" onclick="approveWithdrawal('${withdrawal._id}'); closeWithdrawalModal();">
+                                    <i class="fas fa-check"></i> Approve Withdrawal
+                                </button>
+                                <button class="btn btn-danger" style="flex: 1;" onclick="rejectWithdrawal('${withdrawal._id}'); closeWithdrawalModal();">
+                                    <i class="fas fa-times"></i> Reject Withdrawal
+                                </button>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                
+                document.getElementById('withdrawalModal').style.display = 'flex';
+                hideLoading();
+            } catch (error) {
+                hideLoading();
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Close modal
+        function closeWithdrawalModal() {
+            document.getElementById('withdrawalModal').style.display = 'none';
+        }
+
+        // Approve withdrawal
+        async function approveWithdrawal(withdrawalId) {
+            if (!confirm('Are you sure you want to approve this withdrawal? Make sure you have sent the funds to the user.')) return;
+            
+            try {
+                showLoading();
+                await apiRequest(`/admin/withdrawals/${withdrawalId}/approve`, { method: 'PUT' });
+                showToast('Withdrawal approved successfully', 'success');
+                loadWithdrawals();
+            } catch (error) {
+                hideLoading();
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Reject withdrawal
+        async function rejectWithdrawal(withdrawalId) {
+            if (!confirm('Are you sure you want to reject this withdrawal? The amount will be refunded to user balance.')) return;
+            
+            try {
+                showLoading();
+                await apiRequest(`/admin/withdrawals/${withdrawalId}/reject`, { method: 'PUT' });
+                showToast('Withdrawal rejected', 'success');
+                loadWithdrawals();
+            } catch (error) {
+                hideLoading();
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Filter withdrawals
+        function filterWithdrawals() {
+            const status = document.getElementById('filterStatus').value;
+            const method = document.getElementById('filterMethod').value;
+            const sortBy = document.getElementById('sortBy').value;
+            const searchTerm = document.getElementById('searchWithdrawals').value.toLowerCase();
+            
+            let filtered = [...allWithdrawals];
+            
+            // Filter by status
+            if (status !== 'all') {
+                filtered = filtered.filter(w => w.status === status);
+            }
+            
+            // Filter by method
+            if (method !== 'all') {
+                filtered = filtered.filter(w => w.method === method);
+            }
+            
+            // Search
+            if (searchTerm) {
+                filtered = filtered.filter(w => 
+                    w.user?.username?.toLowerCase().includes(searchTerm) ||
+                    w.user?.email?.toLowerCase().includes(searchTerm) ||
+                    w.walletAddress?.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // Sort
+            switch(sortBy) {
+                case 'newest':
+                    filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    break;
+                case 'oldest':
+                    filtered.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+                    break;
+                case 'amount-high':
+                    filtered.sort((a, b) => b.amount - a.amount);
+                    break;
+                case 'amount-low':
+                    filtered.sort((a, b) => a.amount - b.amount);
+                    break;
+            }
+            
+            renderWithdrawalsTable(filtered);
+        }
+
+        // Refresh withdrawals
+        function refreshWithdrawals() {
+            loadWithdrawals();
+            showToast('Withdrawals refreshed', 'success');
+        }
+
+        // Event listeners
+        document.getElementById('filterStatus').addEventListener('change', filterWithdrawals);
+        document.getElementById('filterMethod').addEventListener('change', filterWithdrawals);
+        document.getElementById('sortBy').addEventListener('change', filterWithdrawals);
+        document.getElementById('searchWithdrawals').addEventListener('input', filterWithdrawals);
+
+        // Load data
+        loadWithdrawals();
+        
+        // Auto-refresh every 30 seconds
+        setInterval(loadWithdrawals, 30000);
+    </script>
+</body>
+</html>
